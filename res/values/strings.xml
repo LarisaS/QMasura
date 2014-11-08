@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">QMasura</string>
+    <string name="title_section1">QMasura</string>
+    <string name="title_section2">Cauta Reteta</string>
+    <string name="title_section3">Frigiderul meu</string>
+    <string name="title_section4">Meniuri</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_example">Example action</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
