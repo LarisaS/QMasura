@@ -2,6 +2,7 @@ package com.proiect.qmasura;
 
 import com.proiect.qmasura.utilitare.UtilitarBackground;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,8 @@ import android.widget.ImageView;
 
 public class HomeScreenFragment extends Fragment {
 	private View myFragmentView;
+	private static final String ARG_SECTION_NUMBER = "section_number";
+
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		        Bundle savedInstanceState) {
 		        // Inflate the layout for this fragment
@@ -19,5 +22,12 @@ public class HomeScreenFragment extends Fragment {
 		        bg_img.setImageResource(UtilitarBackground.imagineHomePage());
 		        return myFragmentView;
 		    }
+	 
+	 @Override
+     public void onAttach(Activity activity) {
+         super.onAttach(activity);
+         ((RootActivity) activity).onSectionAttached(
+                 getArguments().getInt(ARG_SECTION_NUMBER));
+     }
 
 }

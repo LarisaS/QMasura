@@ -77,7 +77,7 @@ public class UtilitarBackground {
 	
 	private static int pozaRandom(int[] sursa)
 	{
-		int max= sursa.length-1;
+		int max= sursa.length;
 		Random rand = new Random();
 
 		int  n = rand.nextInt(max);

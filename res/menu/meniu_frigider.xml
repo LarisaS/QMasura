@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+  <item android:id="@+id/adauga_ingredient"
+          android:icon="@drawable/adauga_ingredient"
+          android:title="Adauga Ingredient"
+          android:showAsAction="always" />
+  <item android:id="@+id/sugereaza_retete"
+          android:icon="@drawable/adauga_ingredient"
+          android:title="Ce pot sa gatesc?"
+          android:showAsAction="always" />
+  "
+</menu>

@@ -1,10 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <TextView android:layout_width="fill_parent"
+    android:background="#ffffff"
+     >
+    <ImageView android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/default_bg"
+        android:alpha="0.25"
+        android:scaleType="centerCrop"/>
+ 
+      
+        <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="CAUTA"></TextView>
-
-</LinearLayout>
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="5dp"
+    	>
+		    	<LinearLayout android:layout_width="fill_parent"
+		    	    android:layout_height="wrap_content"
+		    	    android:orientation="vertical"
+		    	     >
+		    	     <TextView android:layout_width="fill_parent"
+		    	         android:layout_height="wrap_content"
+		    	         android:text="Timpul de preparare:"
+		    	         android:paddingTop="10dp"
+		    	         android:paddingBottom="5dp"
+		    	         android:id="@+id/label_1" />
+		    		<LinearLayout 
+				    android:orientation="horizontal"
+				    android:layout_width="fill_parent"
+				    android:layout_height="fill_parent">
+				    <CheckBox android:id="@+id/opt1"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text=">15min"
+				        />
+				    <CheckBox android:id="@+id/opt2"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="15-30 min"
+				      />
+				     <CheckBox android:id="@+id/opt3"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text=">30min"
+				        />
+					</LinearLayout>
+    			</LinearLayout>
+    	    
+		    
+		    <LinearLayout android:layout_width="fill_parent"
+		    	    android:layout_height="wrap_content"
+		    	    android:orientation="vertical"
+		    	    android:paddingTop="10dp"
+        			android:paddingBottom="5dp"
+		    	     >
+		    	     <TextView android:layout_width="fill_parent"
+		    	         android:layout_height="wrap_content"
+		    	         android:text="Dificultate:"
+		    	         android:paddingTop="10dp"
+		    	         android:paddingBottom="5dp"
+		    	         android:id="@+id/label_2"  />
+		    		<LinearLayout 
+				    android:orientation="horizontal"
+				    android:layout_width="fill_parent"
+				    android:layout_height="fill_parent">
+				    <CheckBox android:id="@+id/opt_dif_1"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="Usor"
+				        />
+				    <CheckBox android:id="@+id/opt_dif_2"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="Mediu"
+				       />
+				     <CheckBox android:id="@+id/opt_dif_3"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:text="Dificil"
+				        />
+					</LinearLayout>
+    			</LinearLayout>		
+		    	
+		    	
+		    <LinearLayout android:layout_width="fill_parent"
+		        android:layout_height="wrap_content"
+		        android:orientation="vertical"
+		        android:paddingTop="20dp"
+		        >
+    		<TextView android:layout_width="fill_parent"
+    		    android:layout_height="wrap_content"
+    		    android:text="Adauga ingredientele"
+    		    android:id="@+id/label_3" 
+    		     />
+		        
+		     <AutoCompleteTextView android:layout_width="fill_parent"
+		         android:layout_height="wrap_content"
+		         android:gravity="center"
+		         android:hint="filtreaza ingredientele"
+		         android:id="@+id/filtrare_ingrediente_cauta"/>
+		    </LinearLayout>
+		    <GridView
+		    			    android:id="@+id/lista_de_ingrediente"
+		    			    android:layout_width="fill_parent"
+			    			    android:layout_height="wrap_content"
+		    			    android:numColumns="4"
+		    			     android:stretchMode="columnWidth"  
+		    			    android:layout_marginTop="10dp" >
+						</GridView>
+        
+    	</LinearLayout>
+    
+    
+</RelativeLayout>

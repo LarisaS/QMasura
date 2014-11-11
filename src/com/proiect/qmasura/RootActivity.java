@@ -1,23 +1,26 @@
 package com.proiect.qmasura;
 
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
 import android.app.Activity;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
+
+
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.Gravity;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 
 public class RootActivity extends ActionBarActivity
@@ -38,6 +41,19 @@ public class RootActivity extends ActionBarActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.root_view);
 
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+		.cacheOnDisc(true).cacheInMemory(true)
+		.imageScaleType(ImageScaleType.EXACTLY)
+		.displayer(new FadeInBitmapDisplayer(300)).build();
+
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				getApplicationContext())
+				.defaultDisplayImageOptions(defaultOptions)
+				.memoryCache(new WeakMemoryCache())
+				.discCacheSize(100 * 1024 * 1024).build();
+		
+		ImageLoader.getInstance().init(config);
+        
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
@@ -46,6 +62,7 @@ public class RootActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        
     }
 
     @Override
@@ -56,21 +73,52 @@ public class RootActivity extends ActionBarActivity
       
         switch(number)
         {
-        case 1: fragmentManager.beginTransaction()
-        .replace(R.id.container, new HomeScreenFragment() ).commit();
-        break;  
-        case 2: fragmentManager.beginTransaction()
-        .replace(R.id.container, new SearchFragment() ).commit();
-        break;  
-        case 3: fragmentManager.beginTransaction()
-        .replace(R.id.container, new FrigiderulMeuFragment() ).commit();
-        break;
-        case 4: fragmentManager.beginTransaction()
-        .replace(R.id.container, new SearchFragment() ).commit();
-        break;
-        default:  fragmentManager.beginTransaction()
-        .replace(R.id.container, PlaceholderFragment.newInstance(number))
-        .commit();
+        case 1:  
+        {	
+            Bundle args = new Bundle();
+            args.putInt("section_number", number);
+            HomeScreenFragment fragment= new HomeScreenFragment();
+            fragment.setArguments(args);
+            fragmentManager.beginTransaction().replace(R.id.container, fragment ).commit();
+            break;  
+         }
+        case 2: 
+        {	
+           Bundle args = new Bundle();
+           args.putInt("section_number", number);
+           CautaReteteFragment fragment= new CautaReteteFragment();
+           fragment.setArguments(args);
+           fragmentManager.beginTransaction().replace(R.id.container, fragment ).commit();
+           break;  
+        }
+        case 3:
+        	{
+        		 Bundle args = new Bundle();
+                 args.putInt("section_number", number);
+                 FrigiderulMeuFragment fragment=new FrigiderulMeuFragment() ;
+                 fragment.setArguments(args);
+        		 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+                 break;
+        	}
+        case 4:
+        	{
+        		Bundle args = new Bundle();
+                args.putInt("section_number", number);
+                ListareMeniuriFragment fragment=new ListareMeniuriFragment() ;
+                fragment.setArguments(args);
+        		fragmentManager.beginTransaction() .replace(R.id.container, fragment ).commit();
+                break;
+                
+        	}
+        default:  
+        	{
+        		 Bundle args = new Bundle();
+                 args.putInt("section_number", number);
+                 HomeScreenFragment fragment= new HomeScreenFragment();
+                 fragment.setArguments(args);
+                 fragmentManager.beginTransaction().replace(R.id.container, fragment ).commit();
+                 
+        	}
         }
         
     }

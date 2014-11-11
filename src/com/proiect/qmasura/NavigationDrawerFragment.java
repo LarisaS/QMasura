@@ -1,5 +1,7 @@
 package com.proiect.qmasura;
 
+import java.util.ArrayList;
+
 import android.support.v7.app.ActionBarActivity;
 import android.app.Activity;
 import android.support.v7.app.ActionBar;
@@ -97,16 +99,16 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                android.R.layout.simple_list_item_1,
-                android.R.id.text1,
-                new String[]{
-                        getString(R.string.title_section1),
-                        getString(R.string.title_section2),
-                        getString(R.string.title_section3),
-                        getString(R.string.title_section4),
-                }));
+        ArrayList<String> menu_items=new ArrayList<String>();
+        menu_items.add(getString(R.string.title_section1));
+        menu_items.add(getString(R.string.title_section2));
+        menu_items.add(getString(R.string.title_section3));
+        menu_items.add(getString(R.string.title_section4));
+        
+        MenuItemAdapter adapter= new MenuItemAdapter(getActivity().getApplicationContext(),menu_items);
+        
+        mDrawerListView.setAdapter(adapter);
+        
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
         return mDrawerListView;
     }
