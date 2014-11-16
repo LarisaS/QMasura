@@ -82,7 +82,7 @@ public class UtilitarBackground {
 
 		int  n = rand.nextInt(max);
 	
-		return sursa[n];
+		return sursa[0];
 		
 	}
 	

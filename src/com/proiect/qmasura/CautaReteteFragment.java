@@ -3,16 +3,19 @@ package com.proiect.qmasura;
 import java.util.ArrayList;
 
 import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.Reteta;
 
 import android.app.Activity;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,6 +28,10 @@ public class CautaReteteFragment  extends Fragment {
 	private CheckBox time1,time2,time3,dific1,dific2,dific3;
 	private AutoCompleteTextView filtrare_ingrediente;
 	private TextView label1,label2,label3;
+	private Button cauta;
+	
+	/*****dummy******/
+	ArrayList<Reteta> retete;
 	
 	 @Override
 	    public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +50,8 @@ public class CautaReteteFragment  extends Fragment {
          String carrot="https://www.agric.wa.gov.au/sites/gateway/files/carrot-1.jpg";
          String cabbage="http://topfoodfacts.com/wp-content/uploads/2013/01/cabbage.jpg";
 		
+         
+         
 		for(int i=0;i<400;i++)
 		{
 			  if(i%5==0)
@@ -75,7 +84,32 @@ public class CautaReteteFragment  extends Fragment {
 				 			  }
 			
 				}
+		
+				retete= new ArrayList<Reteta>();
+				
+				for(int i=0;i<10;i++)
+				{
+					Reteta r= new Reteta("Sugestie Reteta numarul " +(i+1));
+					if(i%4==0)
+					r.setUrlPoza("https://c2.staticflickr.com/2/1317/1469874334_737335c623.jpg");
+					else
+						if(i%4==1)
+							r.setUrlPoza("http://resiliencefitness.com/wp-content/uploads/2013/09/salad.jpg");
+						else
+							if(i%4==2)
+								r.setUrlPoza("http://mixedgreensblog.com/wp-content/uploads/2010/04/green-goddess-soup.jpg");
+							else 
+								if(i%4==3)
+									r.setUrlPoza("http://steamykitchen.com/wp-content/uploads/2010/03/garlic-herb-steak.jpg");
+				
+					retete.add(r);
+				
+				}
+		
 		         fragmentView=inflater.inflate(R.layout.cauta_retete, container, false);
+		         
+		         cauta=(Button)fragmentView.findViewById(R.id.cauta_retete_action);
+		         
 		         GridView imagini= (GridView)fragmentView.findViewById(R.id.lista_de_ingrediente);
 		         CautaReteteGridAdaptor adaptor_grid= new CautaReteteGridAdaptor(getActivity(),ingrediente);
 		         imagini.setAdapter(adaptor_grid);
@@ -87,6 +121,23 @@ public class CautaReteteFragment  extends Fragment {
 		         
 		         Typeface tf = Typeface.createFromAsset(this.getActivity().getAssets(),
 			                "fonts/Sunshine.ttf");
+		         
+		         cauta.setTypeface(tf);
+		         cauta.setOnClickListener(new View.OnClickListener(){
+
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						final FragmentTransaction ft = getFragmentManager().beginTransaction(); 
+			        	 ListareReteteFragment fragment= new ListareReteteFragment();
+			        	 Bundle args= new Bundle();
+			        	 args.putSerializable("retete", retete);// aici se vor transmite retetele sugerate
+			        	 fragment.setArguments(args);
+			        	 ft.replace(R.id.container, fragment, "ReteteSugerate"); 
+			        	 ft.addToBackStack("Retete sugerate");
+			        	 ft.commit(); 
+						
+					}});
 		         
 		         time1=(CheckBox) fragmentView.findViewById(R.id.opt1);
 		         time2=(CheckBox) fragmentView.findViewById(R.id.opt2);

@@ -1,5 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <com.proiect.qmasura.utilitare.NewGridItem xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -9,28 +7,35 @@
     <com.proiect.qmasura.SquareImageView
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
-      android:id="@+id/grid_item_image"
+      android:id="@+id/imagine_reteta_sugerata"
       android:layout_centerInParent="true"
       android:contentDescription="Ingredient"
       android:scaleType="centerCrop"
        />
     <RelativeLayout android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:minHeight="50dp"
+        android:minHeight="150dp"
          android:background="@drawable/overlay_gradient">
          
     <TextView android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="INGREDIENT INFRIGIDER"
+        android:text="Sugestie reteta"
         android:gravity="center"
         android:textSize="14sp"
         android:textStyle="bold"
         android:textColor="#ffffff"
-        android:id="@+id/grid_item_title"
+        android:id="@+id/titlu_reteta_sugerata"
        ></TextView>
     
     </RelativeLayout>
+     <ImageButton android:id="@+id/grid_item_sterge"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+     	android:background="@null"
+        android:src="@drawable/meniu_icon"
+        android:scaleType="centerCrop"
+        android:layout_alignParentRight="true"/>
     
    
 </com.proiect.qmasura.utilitare.NewGridItem>
