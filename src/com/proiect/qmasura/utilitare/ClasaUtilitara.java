@@ -69,7 +69,7 @@ public class ClasaUtilitara {
 		
 	}
 
-
+	//nu este folosita inca
 	private static int[] verificaSarbatoare(String zi, String luna, String an) {
 		// TODO Auto-generated method stub
 		int[] poze=null;
@@ -97,6 +97,7 @@ public class ClasaUtilitara {
 		
 	}
 	
+	//nu este folosita
 	private static int pozaRandom(int[] sursa)
 	{
 		int max= sursa.length;
@@ -106,9 +107,9 @@ public class ClasaUtilitara {
 	
 		return sursa[0];
 	}
+
 	
-	
-	  public static String getStringFromJson(HttpEntity entity) throws IOException
+	public static String getStringFromJson(HttpEntity entity) throws IOException
 		{
 			
 		      InputStream is = entity.getContent();
@@ -134,7 +135,7 @@ public class ClasaUtilitara {
 		}
 
 	 
-	  public static Reteta getRetetaFromJSON(JSONObject json_reteta)
+	public static Reteta getRetetaFromJSON(JSONObject json_reteta)
 	 {
 		  /**
 		   * private String description,name, picture;
