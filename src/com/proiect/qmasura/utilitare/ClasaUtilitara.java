@@ -1,14 +1,36 @@
 package com.proiect.qmasura.utilitare;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Random;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import android.util.Log;
+
 import com.proiect.qmasura.R;
+import com.proiect.qmasura.obiecte.Reteta;
 
 
 
-public class UtilitarBackground {
+
+
+public class ClasaUtilitara {
 
 	private static int[] desert={R.drawable.desert1,R.drawable.desert2,R.drawable.desert3};
 	private static int[] craciun;
@@ -83,7 +105,52 @@ public class UtilitarBackground {
 		int  n = rand.nextInt(max);
 	
 		return sursa[0];
-		
 	}
 	
+	
+	  public static String getStringFromJson(HttpEntity entity) throws IOException
+		{
+			
+		      InputStream is = entity.getContent();
+		           
+		      BufferedReader reader = new BufferedReader ( new InputStreamReader(is,"UTF-8"),8);
+		      StringBuilder sb = new StringBuilder();
+		       String  line = null;
+		       while ((line = reader.readLine()) != null) {
+		        	   {   
+		        	   sb.append(line);
+		        	   }
+		           } 
+		  
+		    
+		       line= sb.toString();
+		       
+		       Log.i("AAAAA", line);
+		       
+		       is.close();
+		       reader.close(); 
+		        return line;
+		     
+		}
+
+	 
+	  public static Reteta getRetetaFromJSON(JSONObject json_reteta)
+	 {
+		  /**
+		   * private String description,name, picture;
+			 private String dificultate;
+			 private int time,nr_persons;
+			 private int local_id, id;
+		   * 
+		   */
+		    
+		 String name,picture,description,dificultate;
+		 int time, nr_persons,local_id,id;
+		 
+		 Reteta tmp= new Reteta();
+		 return tmp;
+		 
+	 }
+	 
+	 
 }

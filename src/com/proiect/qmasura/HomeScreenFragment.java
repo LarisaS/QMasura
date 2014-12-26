@@ -1,6 +1,6 @@
 package com.proiect.qmasura;
 
-import com.proiect.qmasura.utilitare.UtilitarBackground;
+import com.proiect.qmasura.utilitare.ClasaUtilitara;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ public class HomeScreenFragment extends Fragment {
 		        // Inflate the layout for this fragment
 		 		myFragmentView=inflater.inflate(R.layout.home_screen_view, container, false);
 		        ImageView bg_img=(ImageView) myFragmentView.findViewById(R.id.home_bg_image);
-		        bg_img.setImageResource(UtilitarBackground.imagineHomePage());
+		        bg_img.setImageResource(ClasaUtilitara.imagineHomePage());
 		        return myFragmentView;
 		    }
 	 

@@ -52,7 +52,7 @@ public class CautaReteteFragment  extends Fragment {
 		
          
          
-		for(int i=0;i<400;i++)
+		/*for(int i=0;i<400;i++)
 		{
 			  if(i%5==0)
 			  {
@@ -83,7 +83,7 @@ public class CautaReteteFragment  extends Fragment {
 				 				 ingrediente.add(new Ingredient("Varza",cabbage));
 				 			  }
 			
-				}
+				}*/
 		
 				retete= new ArrayList<Reteta>();
 				
@@ -91,16 +91,16 @@ public class CautaReteteFragment  extends Fragment {
 				{
 					Reteta r= new Reteta("Sugestie Reteta numarul " +(i+1));
 					if(i%4==0)
-					r.setUrlPoza("https://c2.staticflickr.com/2/1317/1469874334_737335c623.jpg");
+					r.setPoza("https://c2.staticflickr.com/2/1317/1469874334_737335c623.jpg");
 					else
 						if(i%4==1)
-							r.setUrlPoza("http://resiliencefitness.com/wp-content/uploads/2013/09/salad.jpg");
+							r.setPoza("http://resiliencefitness.com/wp-content/uploads/2013/09/salad.jpg");
 						else
 							if(i%4==2)
-								r.setUrlPoza("http://mixedgreensblog.com/wp-content/uploads/2010/04/green-goddess-soup.jpg");
+								r.setPoza("http://mixedgreensblog.com/wp-content/uploads/2010/04/green-goddess-soup.jpg");
 							else 
 								if(i%4==3)
-									r.setUrlPoza("http://steamykitchen.com/wp-content/uploads/2010/03/garlic-herb-steak.jpg");
+									r.setPoza("http://steamykitchen.com/wp-content/uploads/2010/03/garlic-herb-steak.jpg");
 				
 					retete.add(r);
 				

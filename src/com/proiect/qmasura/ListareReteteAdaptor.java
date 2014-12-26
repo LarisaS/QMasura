@@ -88,8 +88,8 @@ public class ListareReteteAdaptor extends BaseAdapter {
 		          				.showImageOnLoading(R.drawable.default_bg).build();
 		          		  
 		        
-		      title.setText(retete.get(pozsition).getNume());
-		      imageLoader.displayImage(retete.get(pozsition).getUrlPoza(), imageView, options);
+		      title.setText(retete.get(pozsition).getName());
+		      imageLoader.displayImage(retete.get(pozsition).getPicure(), imageView, options);
 		    	          
 	          
 	          //download and display image from url

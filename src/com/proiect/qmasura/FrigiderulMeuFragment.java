@@ -42,7 +42,7 @@ public class FrigiderulMeuFragment extends Fragment {
 		          String carrot="https://www.agric.wa.gov.au/sites/gateway/files/carrot-1.jpg";
 		          String cabbage="http://topfoodfacts.com/wp-content/uploads/2013/01/cabbage.jpg";
 		 		
-		 		for(int i=0;i<400;i++)
+		 		/*for(int i=0;i<400;i++)
 		 		{
 		 			  if(i%5==0)
 		 			  {
@@ -74,7 +74,7 @@ public class FrigiderulMeuFragment extends Fragment {
 						 			  }
 		 			
 		 		}
-		 			
+		 			*/
 		 		
 		         fragmentView=inflater.inflate(R.layout.frigiderul_meu_view, container, false);
 		         GridView imagini= (GridView)fragmentView.findViewById(R.id.frigiderul_meu);

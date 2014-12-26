@@ -17,7 +17,7 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 import com.proiect.qmasura.obiecte.Meniu;
-import com.proiect.qmasura.utilitare.UtilitarBackground;
+import com.proiect.qmasura.utilitare.ClasaUtilitara;
 
 public class ListareMeniuriFragment extends Fragment {
 	private View myFragmentView;

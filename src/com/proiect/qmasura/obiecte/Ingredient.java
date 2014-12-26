@@ -3,56 +3,57 @@ package com.proiect.qmasura.obiecte;
 import java.io.Serializable;
 
 public class Ingredient implements Serializable {
-	private String cantitate, nume, url_poza, unitati;
-	
-	public Ingredient(String nume,String poza)
+	/*
+	 * "id":1,"name":"mere","general_name":"mere","category_id":6,"buc_quantity":150.0,"picture":null
+	 * */
+	private String name, general_name,poza;
+	private int id, category_id;
+	private  float cantitate;
+	private int um_id=0;
+	private String um="";
+	public Ingredient(String nume,String um,int um_id)
 	{
-		this.nume=nume;
-		this.url_poza=poza;
-		cantitate="0";
-		unitati="";
+		this.name=nume;
+		this.poza=null;
+		this.um=um;
+		this.um_id=um_id;
+		cantitate=0;
 	}
 	
-	public String getCantitateCuUnitati()
+	public String  getCantitateCuUnitati()
 	{
-		return cantitate+" "+unitati;
-		
+		return cantitate+" "+um;		
 	}
 	
-
 	public String getNume()
 	{
-		return this.nume;
+		return this.name;
 	}
 	
 	public String getUrlPoza()
 	{
-		return this.url_poza;
+		return this.poza;
 	}
 	
-	public String getCantitate()
+	public float getCantitate()
 	{
 		return this.cantitate;
 		
 	}
 	
-	public void setCantitate(String cantit)
+	public void setCantitate(float cantit)
 	{
 		this.cantitate=cantit;
 	}
 	
 	public void setNume(String nume)
 	{
-		this.nume=nume;
+		this.name=nume;
 	}
 	
-	public void setUnitate(String unit)
-	{
-		this.unitati=unit;
-	}
 	
 	public void setURLPoza(String url)
 	{
-		this.url_poza=url;
+		this.poza=url;
 	}
 }

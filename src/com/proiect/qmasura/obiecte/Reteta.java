@@ -3,36 +3,48 @@ package com.proiect.qmasura.obiecte;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.proiect.qmasura.utilitare.ClasaUtilitara;
+
 public class Reteta implements Serializable {
+	
+	/*
+	 * [{"id":1,
+	 * 	 "name":"Prajitura cu mac si cu crema de smantana",
+	 * 	 "motto":"Prajitura cu mac si cu o crema fina de smantana.",
+	 *   "time":60,
+	 *   "nr_persons":8,
+	 *   "difficulty_id":4,
+	 *   "country_id":1,
+	 *   "picture":"",
+	 *   "link":"https://retete.lidl.ro/reteta/prajitura-cu-mac-si-cu-crema-de-smantana/948",
+	 *   "description":
+	 * */
+	
 	ArrayList<Ingredient> ingrediente;
-	ArrayList<String> pasi;
-	String nume, url_poza;
-	String dificultate,timp;
+	private String description,name, picture;
+	private String dificultate;
+	private int time,nr_persons;
+	private int local_id, id;
 	
-	String mod_preparare;
-	
-	public Reteta(String nume)
+	public Reteta(String json)
 	{
-		ingrediente= new ArrayList<Ingredient>();
-		pasi= new ArrayList<String>();
-		this.nume=nume;
+		Reteta tmp= ClasaUtilitara.getRetetaFromJSON(null);
 	}
 	
 
 	public Reteta()
 	{
 		ingrediente= new ArrayList<Ingredient>();
-		pasi= new ArrayList<String>();
 	}
 	
-	public void setUrlPoza(String url)
+	public void setPoza(String url)
 	{
-		this.url_poza=url;
+		this.picture=url;
 	}
 	
-	public void setTimp(String timp)
+	public void setTime(int timp)
 	{
-		this.timp=timp;
+		this.time=timp;
 	}
 	
 	public void setDificultate(String dif)
@@ -40,19 +52,19 @@ public class Reteta implements Serializable {
 		this.dificultate=dif;
 	}
 	
-	public void setNume(String nume)
+	public void setName(String nume)
 	{
-		this.nume=nume;
+		this.name=nume;
 	}
 	
-	public void setModPreparare(String preparare)
+	public void setDescription(String preparare)
 	{
-		this.mod_preparare=preparare;
+		this.description=preparare;
 	}
 	
-	public String getModPreparare()
+	public String getDescription()
 	{
-		return this.mod_preparare;
+		return this.description;
 	}
 	
 	public void setIngrediente(ArrayList<Ingredient> ingr)
@@ -60,14 +72,14 @@ public class Reteta implements Serializable {
 		this.ingrediente=ingr;
 	}
 	
-	public String getNume()
+	public String getName()
 	{
-		return nume;
+		return name;
 	}
 	
-	public String getUrlPoza()
+	public String getPicure()
 	{
-		return url_poza;
+		return picture;
 	}
 	
 	public ArrayList<Ingredient> getIngrediente()
