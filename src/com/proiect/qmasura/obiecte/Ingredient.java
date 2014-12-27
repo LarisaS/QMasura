@@ -2,6 +2,8 @@ package com.proiect.qmasura.obiecte;
 
 import java.io.Serializable;
 
+import org.json.JSONObject;
+
 public class Ingredient implements Serializable {
 	/*
 	 * "id":1,"name":"mere","general_name":"mere","category_id":6,"buc_quantity":150.0,"picture":null
@@ -19,21 +21,61 @@ public class Ingredient implements Serializable {
 		this.um_id=um_id;
 		cantitate=0;
 	}
+	public Ingredient()
+	{
+	}
+	public Ingredient(JSONObject ingr)
+	{
 	
+	}
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getGeneral_name() {
+		return general_name;
+	}
+	public void setGeneral_name(String general_name) {
+		this.general_name = general_name;
+	}
+	public String getPoza() {
+		return poza;
+	}
+	public void setPoza(String poza) {
+		this.poza = poza;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getCategory_id() {
+		return category_id;
+	}
+	public void setCategory_id(int category_id) {
+		this.category_id = category_id;
+	}
+	public int getUm_id() {
+		return um_id;
+	}
+	public void setUm_id(int um_id) {
+		this.um_id = um_id;
+	}
+	public String getUm() {
+		return um;
+	}
+	public void setUm(String um) {
+		this.um = um;
+	}
 	public String  getCantitateCuUnitati()
 	{
 		return cantitate+" "+um;		
 	}
 	
-	public String getNume()
-	{
-		return this.name;
-	}
-	
-	public String getUrlPoza()
-	{
-		return this.poza;
-	}
 	
 	public float getCantitate()
 	{
@@ -46,14 +88,4 @@ public class Ingredient implements Serializable {
 		this.cantitate=cantit;
 	}
 	
-	public void setNume(String nume)
-	{
-		this.name=nume;
-	}
-	
-	
-	public void setURLPoza(String url)
-	{
-		this.poza=url;
-	}
 }

@@ -1,26 +1,53 @@
 package com.proiect.qmasura;
 
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.sqlite.DbHelper;
+import com.proiect.qmasura.utilitare.ClasaUtilitara;
+
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences.Editor;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 
 public class RootActivity extends ActionBarActivity
@@ -62,8 +89,95 @@ public class RootActivity extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+        Log.i("AAAAAAAAAAAAA","on create -aaa");
+        UpdateDB updateDb= new UpdateDB(this);
+        updateDb.execute();
         
     }
+    
+    
+    private class UpdateDB extends  AsyncTask<Void,String,Integer>
+    {
+
+    	private Context context; 
+    	private ProgressDialog pd;
+    	
+    	public UpdateDB(Context context)
+    	{
+    		this.context=context;
+    	}
+    	
+
+    	protected void onPreExecute() {
+    	
+    		super.onPreExecute();
+    	    pd = ProgressDialog.show(context, "Verificam datele",
+    	              "Va rugam asteptati.."); 
+    	    
+    	    Log.i("update DB", "onPreExecute"); 
+    	    
+    	} 
+    	
+    	protected void onPostExecute(Integer result){ 
+    	pd.dismiss();
+    	}
+    	 
+    	protected void onProgressUpdate(String... text) {
+    		  Log.i("update DB", "on progress update"); 
+    	 } 
+    	
+		@Override
+		protected Integer doInBackground(Void... params) {
+			// TODO Auto-generated method stub
+		Log.i("AAAAAAAAAAAAA","on create -aaa");
+		Log.i("update DB", "do in background"); 
+		DbHelper db_helper= new DbHelper(context);
+		HttpClient httpclient = new DefaultHttpClient();
+		try {
+			
+			String ultima_updatare_um=db_helper.dataUpdateUnitatiMasura();
+			Log.i("update DB", "Ultima updatare:"+ultima_updatare_um); 
+			if(!ultima_updatare_um.isEmpty() && ultima_updatare_um.equals("0"))
+			{
+				HttpPost httppost = new HttpPost("https://qmasura-ruby.herokuapp.com/api/ingredients/listAll");	 
+				HttpResponse rez = httpclient.execute(httppost);
+				String s= ClasaUtilitara.getStringFromJson(rez.getEntity());
+				
+				Log.i("update DB", "listare unitati de masura "+s);
+				/*JSONArray ingredients_array= new JSONArray(s);
+				for(int j=0;j<ingredients_array.length();j++)
+				{
+					JSONObject ingredient_obj=ingredients_array.getJSONObject(j);
+					Ingredient i= new Ingredient(ingredient_obj);
+				}*/
+			}
+			else
+				Log.i("AAAAAAAAAA", "WTF");
+			/*
+				HttpPost httppost = new HttpPost("https://qmasura-ruby.herokuapp.com/api/ingredients/listAll");	 
+				HttpResponse rez = httpclient.execute(httppost);
+				String s= ClasaUtilitara.getStringFromJson(rez.getEntity());
+				JSONArray ingredients_array= new JSONArray(s);
+				for(int j=0;j<ingredients_array.length();j++)
+				{
+					JSONObject ingredient_obj=ingredients_array.getJSONObject(j);
+					Ingredient i= new Ingredient(ingredient_obj);
+				}
+				*/
+		}
+		catch(Exception e)
+		{
+				Log.i("EXCEPTIE", e.getMessage());
+		}
+		finally{
+			db_helper.close();
+		}
+		return 1;
+		}
+    	
+    	
+    }
+    
 
     @Override
     public void onNavigationDrawerItemSelected(int position) {

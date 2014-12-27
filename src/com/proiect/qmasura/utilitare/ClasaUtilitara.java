@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import android.util.Log;
 
 import com.proiect.qmasura.R;
+import com.proiect.qmasura.obiecte.Ingredient;
 import com.proiect.qmasura.obiecte.Reteta;
 
 
@@ -153,5 +154,41 @@ public class ClasaUtilitara {
 		 
 	 }
 	 
+	public static Ingredient getIngredientFromJSON(JSONObject json_ingredient)
+	 {
+		  /**
+		   *"id":1,
+		   *"name":"mere",
+		   *"general_name":"mere",
+		   *"category_id":6,
+		   *"buc_quantity":150.0,
+		   *"picture":null
+		   */
+		 
+		 String picture,name,general_name;
+		 int category_id,id;
+		 double buc_quantity;
+		 try
+		 {
+			 id=json_ingredient.getInt("id");
+			 picture=json_ingredient.getString("picture");
+			 name=json_ingredient.getString("name");
+			 general_name=json_ingredient.getString("general_name");
+			 category_id=json_ingredient.getInt("category_id");
+			 buc_quantity=json_ingredient.getDouble("buc_quantity");
+		 }
+		 catch(Exception e)
+		 {
+			 return null;
+		 }
+		 Ingredient tmp= new Ingredient();
+		 tmp.setId(id);
+		 tmp.setName(name);
+		 tmp.setGeneral_name(general_name);
+		 tmp.setPoza(picture);
+		 tmp.setCategory_id(category_id);
+		 return tmp;
+		 
+	 }
 	 
 }
