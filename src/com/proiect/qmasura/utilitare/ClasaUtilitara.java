@@ -126,12 +126,9 @@ public class ClasaUtilitara {
 		  
 		    
 		       line= sb.toString();
-		       
-		       Log.i("AAAAA", line);
-		       
 		       is.close();
 		       reader.close(); 
-		        return line;
+		       return line;
 		     
 		}
 
