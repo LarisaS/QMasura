@@ -231,6 +231,25 @@ public class DbHelper extends SQLiteOpenHelper {
 		 else
 			 	return false;
 	}
+	
+	public ArrayList<UnitatiDeMasura> unitatileDeMasura()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		String selectQuery = "SELECT * FROM " + UNITATI;		 
+		Cursor c = db.rawQuery(selectQuery, null);
+		ArrayList<UnitatiDeMasura> units= new ArrayList<UnitatiDeMasura>();
+		while(c.moveToNext())
+		{
+			 UnitatiDeMasura um= new UnitatiDeMasura();
+			 int id=  c.getInt(c.getColumnIndex(UNITATI_ID));
+			 String name= c.getString(c.getColumnIndex(UNITATI_NAME));
+			 um.setId(id);
+			 um.setName(name);
+			 units.add(um);
+		 }
+		return units;		
+		
+	}
 	/********db handler opps************/
 	public void closeDB() {
 	        SQLiteDatabase db = this.getReadableDatabase();

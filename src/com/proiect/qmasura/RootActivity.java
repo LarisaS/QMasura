@@ -136,7 +136,6 @@ public class RootActivity extends ActionBarActivity
 		DbHelper db_helper= new DbHelper(context);
 		HttpClient httpclient = new DefaultHttpClient();
 		try {
-			
 			String ultima_updatare_um=db_helper.dataUpdateUnitatiMasura();
 			Log.i("update DB", "Ultima updatare:"+ultima_updatare_um); 
 			if(!ultima_updatare_um.isEmpty() && ultima_updatare_um.equals("0"))
@@ -157,7 +156,12 @@ public class RootActivity extends ActionBarActivity
 				db_helper.actualizeazaTimestampUnitati();
 			}
 			else
-				Log.i("AAAAAAAAAA", "WTF");
+			{
+				Log.i("update DB", "unitati de masura");
+				ArrayList<UnitatiDeMasura> units= db_helper.unitatileDeMasura();
+				for(int i=0;i<units.size();i++)
+					units.get(i).display();
+			}
 			/*
 				HttpPost httppost = new HttpPost("https://qmasura-ruby.herokuapp.com/api/ingredients/listAll");	 
 				HttpResponse rez = httpclient.execute(httppost);
