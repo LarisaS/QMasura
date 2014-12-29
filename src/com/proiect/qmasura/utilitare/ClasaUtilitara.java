@@ -26,6 +26,7 @@ import android.util.Log;
 import com.proiect.qmasura.R;
 import com.proiect.qmasura.obiecte.Ingredient;
 import com.proiect.qmasura.obiecte.Reteta;
+import com.proiect.qmasura.obiecte.UnitatiDeMasura;
 
 
 
@@ -149,6 +150,25 @@ public class ClasaUtilitara {
 		 Reteta tmp= new Reteta();
 		 return tmp;
 		 
+	 }
+	
+	public static UnitatiDeMasura getUnitateFromJSON(JSONObject json_um)
+	 {
+		int id=0;
+		String name="";
+		UnitatiDeMasura um= new UnitatiDeMasura();
+		try
+		{
+		id=json_um.getInt("id");
+		name=json_um.getString("name");
+		um.setId(id);
+		um.setName(name);
+		}
+		catch(Exception e)
+		{
+			
+		}
+		return um;
 	 }
 	 
 	public static Ingredient getIngredientFromJSON(JSONObject json_ingredient)

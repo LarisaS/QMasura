@@ -2,9 +2,12 @@ package com.proiect.qmasura.sqlite;
 
 
 import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.UnitatiDeMasura;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -45,12 +48,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String INGREDIENTE_CATEGORY="category_id";
 	
 	private static final String FRIGIDER_LOCAL_ID="_id";
-	private static final String FRIGIDER_ID="ingredient_id";
-	private static final String FRIGIDER_NAME="name";
 	private static final String FRIGIDER_GENERAL_NAME="general_name";
 	private static final String FRIGIDER_CANTITATE="cantitate";
 	private static final String FRIGIDER_POZA="poza";
-	private static final String FRIGIDER_CATEGORY="category_id";
+	private static final String FRIGIDER_SHOW="category_id";
 	private static final String FRIGIDER_UM="um_frigider";
 	private static final String FRIGIDER_UM_ID="um_id_frigider";
 	
@@ -68,14 +69,12 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	private static final String createTableFrigider="CREATE TABLE "+FRIGIDER+" (" +
 			FRIGIDER_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-			FRIGIDER_ID+" INTEGER,"+
-			FRIGIDER_NAME+" varchar2(100),"+
 			FRIGIDER_GENERAL_NAME+" varchar2(100)," +
 			FRIGIDER_CANTITATE+" real," +
 			FRIGIDER_POZA+" varchar2(255)," +
 			FRIGIDER_UM+" varchar2(255)," +
 			FRIGIDER_UM_ID+" integer," +
-			FRIGIDER_CATEGORY+" integer );";
+			FRIGIDER_SHOW+" integer );";
 	
 	private static final String createTableUnitati="CREATE TABLE "+UNITATI+" (" +
 			UNITATI_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -158,11 +157,9 @@ public class DbHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		ContentValues values = new ContentValues();
-		values.put(FRIGIDER_ID, ingr.getId());
-		values.put(FRIGIDER_CATEGORY, ingr.getCategory_id());
+		values.put(FRIGIDER_SHOW,1);
 		values.put(FRIGIDER_GENERAL_NAME, ingr.getGeneral_name());
 		values.put(FRIGIDER_POZA, ingr.getPoza());
-		values.put(FRIGIDER_NAME, ingr.getName());
 		values.put(FRIGIDER_CANTITATE, ingr.getCantitate());
 		values.put(FRIGIDER_UM, ingr.getUm());
 		values.put(FRIGIDER_UM_ID, ingr.getUm_id());
@@ -190,8 +187,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		 {
 			 Ingredient i= new Ingredient();
 			 i.setCantitate(c.getFloat(c.getColumnIndex(FRIGIDER_CANTITATE)));
-			 i.setId(c.getInt(c.getColumnIndex(FRIGIDER_ID)));
-			 i.setName(c.getString(c.getColumnIndex(FRIGIDER_NAME)));
+			 i.setId(c.getInt(c.getColumnIndex(FRIGIDER_LOCAL_ID)));
 			 i.setGeneral_name(c.getString(c.getColumnIndex(FRIGIDER_GENERAL_NAME)));
 			 i.setPoza(c.getString(c.getColumnIndex(FRIGIDER_POZA)));
 			 i.setUm(c.getString(c.getColumnIndex(FRIGIDER_UM)));
@@ -202,7 +198,39 @@ public class DbHelper extends SQLiteOpenHelper {
 		 return ingrediente;
 	}
 	
+	public void actualizeazaTimestampUnitati()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ContentValues cv = new ContentValues();
+		Date date = new Date();
+		String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+		cv.put(SETTINGS_VALUE,modifiedDate);
+		db.update(SETTINGS, cv, SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_UM+"'", null);
+	}
 	
+	public boolean populeazaUnitatiDeMasura(ArrayList<UnitatiDeMasura> ums)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		 db.beginTransaction();
+		 db.execSQL("delete from "+ UNITATI);
+		 ContentValues values = new ContentValues();
+		 int ok=1;
+		 for(int i=0;i<ums.size();i++)
+		 {
+			values.clear();
+			values.put(UNITATI_ID,ums.get(i).getId());
+			values.put(UNITATI_NAME,ums.get(i).getName());
+			long local_id = db.insert(UNITATI, null, values);
+			if(local_id==-1) ok=0;
+		 }
+		 if(ok==1) db.setTransactionSuccessful();
+		 
+		 db.endTransaction();
+		 if(ok==1)
+			 	return true;
+		 else
+			 	return false;
+	}
 	/********db handler opps************/
 	public void closeDB() {
 	        SQLiteDatabase db = this.getReadableDatabase();

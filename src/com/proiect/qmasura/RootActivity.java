@@ -9,6 +9,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
@@ -22,6 +23,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.UnitatiDeMasura;
 import com.proiect.qmasura.sqlite.DbHelper;
 import com.proiect.qmasura.utilitare.ClasaUtilitara;
 
@@ -139,17 +141,20 @@ public class RootActivity extends ActionBarActivity
 			Log.i("update DB", "Ultima updatare:"+ultima_updatare_um); 
 			if(!ultima_updatare_um.isEmpty() && ultima_updatare_um.equals("0"))
 			{
-				HttpPost httppost = new HttpPost("https://qmasura-ruby.herokuapp.com/api/ingredients/listAll");	 
+				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/unities/listAll");	 
 				HttpResponse rez = httpclient.execute(httppost);
-				String s= ClasaUtilitara.getStringFromJson(rez.getEntity());
-				
+				String s= ClasaUtilitara.getStringFromJson(rez.getEntity());				
 				Log.i("update DB", "listare unitati de masura "+s);
-				/*JSONArray ingredients_array= new JSONArray(s);
-				for(int j=0;j<ingredients_array.length();j++)
+				JSONArray unitati_array= new JSONArray(s);
+				ArrayList<UnitatiDeMasura> ums= new ArrayList<UnitatiDeMasura>();
+				for(int j=0;j<unitati_array.length();j++)
 				{
-					JSONObject ingredient_obj=ingredients_array.getJSONObject(j);
-					Ingredient i= new Ingredient(ingredient_obj);
-				}*/
+					JSONObject unit_obj=unitati_array.getJSONObject(j);
+					UnitatiDeMasura um=ClasaUtilitara.getUnitateFromJSON(unit_obj);
+					ums.add(um);
+				}
+				db_helper.populeazaUnitatiDeMasura(ums);
+				db_helper.actualizeazaTimestampUnitati();
 			}
 			else
 				Log.i("AAAAAAAAAA", "WTF");
