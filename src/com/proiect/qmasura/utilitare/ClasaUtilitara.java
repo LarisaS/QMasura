@@ -182,17 +182,19 @@ public class ClasaUtilitara {
 		   *"picture":null
 		   */
 		 
-		 String picture,name,general_name;
-		 int category_id,id;
-		 double buc_quantity;
+		 String picture="",general_name,um;
+		 int um_id,id;
+		 float cantitate=0;
 		 try
 		 {
+			 JSONObject um_json= json_ingredient.getJSONObject("unity");
 			 id=json_ingredient.getInt("id");
-			 picture=json_ingredient.getString("picture");
-			 name=json_ingredient.getString("name");
+			// picture=json_ingredient.getString("picture");
 			 general_name=json_ingredient.getString("general_name");
-			 category_id=json_ingredient.getInt("category_id");
-			 buc_quantity=json_ingredient.getDouble("buc_quantity");
+			 um_id=um_json.getInt("id");
+			 um=um_json.getString("name");
+			 if(json_ingredient.has("cantitate"))
+				 cantitate=(float)json_ingredient.getDouble("cantitate");
 		 }
 		 catch(Exception e)
 		 {
@@ -202,6 +204,9 @@ public class ClasaUtilitara {
 		 tmp.setId(id);
 		 tmp.setGeneral_name(general_name);
 		 tmp.setPoza(picture);
+		 tmp.setUm(um);
+		 tmp.setUm_id(um_id);
+		 tmp.setCantitate(cantitate);
 		 return tmp;
 		 
 	 }

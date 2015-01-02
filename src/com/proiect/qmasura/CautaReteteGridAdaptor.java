@@ -86,7 +86,7 @@ public class CautaReteteGridAdaptor  extends BaseAdapter {
 	          });*/
 	          
 	          Typeface tf = Typeface.createFromAsset(context.getAssets(),
-		                "fonts/Sunshine.ttf");
+		                "fonts/Bombardier.ttf");
 		      title.setTypeface(tf);
 		      //cantitate.setTypeface(tf);
 		      

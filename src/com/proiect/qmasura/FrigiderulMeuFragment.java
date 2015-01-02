@@ -4,6 +4,7 @@ package com.proiect.qmasura;
 import java.util.ArrayList;
 
 import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.sqlite.DbHelper;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -36,45 +37,14 @@ public class FrigiderulMeuFragment extends Fragment {
 		        Bundle savedInstanceState) {
 		        // Inflate the layout for this fragment
 		 		ingrediente= new ArrayList<Ingredient>();
+		 		DbHelper db_helper= new DbHelper(this.getActivity());
+		 		ingrediente=db_helper.ingredienteDinFrigider();
+		 		db_helper.close();
 		 		  String tomato = "http://www.foodproductiondaily.com/var/plain_site/storage/images/publications/food-beverage-nutrition/foodproductiondaily.com/innovations/packaging-made-from-tomato-waste/8593675-1-eng-GB/Packaging-made-from-tomato-waste.jpg";
 		          String onions="http://upload.wikimedia.org/wikipedia/commons/8/85/Red_onions.jpg";
 		          String eggs="http://www.writtenchinese.com/wp-content/uploads/2013/09/Eggs.jpg";
 		          String carrot="https://www.agric.wa.gov.au/sites/gateway/files/carrot-1.jpg";
 		          String cabbage="http://topfoodfacts.com/wp-content/uploads/2013/01/cabbage.jpg";
-		 		
-		 		/*for(int i=0;i<400;i++)
-		 		{
-		 			  if(i%5==0)
-		 			  {
-		 				  Ingredient ing=new Ingredient("Ceapa",onions);
-		 				  ing.setCantitate("12");
-		 				  ing.setUnitate("buc");
-		 				 ingrediente.add(ing);
-		 				 
-		 			  }
-				          else
-				       if(i%5==1)
-				       {
-			 				 ingrediente.add(new Ingredient("Rosii",tomato));
-			 			  }
-				       else
-				    	   if(i%5==2)
-				    	   {
-				 				 ingrediente.add(new Ingredient("Oua",eggs));
-				 			  }
-				    	   else
-				    		   if(i%5==3)
-				    		   {
-					 				 ingrediente.add(new Ingredient("Morcovi",carrot));
-					 			  }
-				    		   else
-				    			   if(i%5==4)
-				    			   {
-						 				 ingrediente.add(new Ingredient("Varza",cabbage));
-						 			  }
-		 			
-		 		}
-		 			*/
 		 		
 		         fragmentView=inflater.inflate(R.layout.frigiderul_meu_view, container, false);
 		         GridView imagini= (GridView)fragmentView.findViewById(R.id.frigiderul_meu);

@@ -166,18 +166,20 @@ public class RootActivity extends ActionBarActivity
 			String ultima_updatare_frig=db_helper.dataUpdateFrigider();
 			Log.i("ultima updatare frigider", "Frigifer: ultima updatare "+ultima_updatare_frig);
 			if(!ultima_updatare_frig.isEmpty() && ultima_updatare_frig.equals("0"))
-			{
+			{ 
 				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/frigiders/listAll");	 
 				HttpResponse rez = httpclient.execute(httppost);
-				String s= ClasaUtilitara.getStringFromJson(rez.getEntity());				
-				Log.i("update DB", "listare ingrediente default "+s);
-				JSONArray unitati_array= new JSONArray(s);
+				String ras= ClasaUtilitara.getStringFromJson(rez.getEntity());				
+				Log.i("update DB", "listare ingrediente default "+ras);
+				JSONArray ing_array= new JSONArray(ras);
 				ArrayList<Ingredient> ums= new ArrayList<Ingredient>();
-				for(int j=0;j<unitati_array.length();j++)
+				for(int j=0;j<ing_array.length();j++)
 				{
-					JSONObject unit_obj=unitati_array.getJSONObject(j);
+					
+					JSONObject unit_obj=ing_array.getJSONObject(j);
 					Ingredient um=ClasaUtilitara.getIngredientFromJSON(unit_obj);
 					ums.add(um);
+					um.display();
 					db_helper.insereazaIngredientInFrigider(um);
 				}
 				
@@ -190,21 +192,10 @@ public class RootActivity extends ActionBarActivity
 				for(int i=0;i<ingredients.size();i++)
 				ingredients.get(i).display();
 			}
-			/*
-				HttpPost httppost = new HttpPost("https://qmasura-ruby.herokuapp.com/api/ingredients/listAll");	 
-				HttpResponse rez = httpclient.execute(httppost);
-				String s= ClasaUtilitara.getStringFromJson(rez.getEntity());
-				JSONArray ingredients_array= new JSONArray(s);
-				for(int j=0;j<ingredients_array.length();j++)
-				{
-					JSONObject ingredient_obj=ingredients_array.getJSONObject(j);
-					Ingredient i= new Ingredient(ingredient_obj);
-				}
-				*/
 		}
 		catch(Exception e)
 		{
-				Log.i("EXCEPTIE", e.getMessage());
+				Log.i("EXCEPTIE", e.getLocalizedMessage());
 		}
 		finally{
 			db_helper.close();

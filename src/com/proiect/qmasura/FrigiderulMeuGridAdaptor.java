@@ -93,10 +93,10 @@ public class FrigiderulMeuGridAdaptor extends BaseAdapter {
 					Toast.makeText(context, ((Integer)v.getTag())+"", Toast.LENGTH_SHORT).show();
 				}
 	        	  
-	          });
+	          }); 
 	          
 	          Typeface tf = Typeface.createFromAsset(context.getAssets(),
-		                "fonts/Sunshine.ttf");
+		                "fonts/Bombardier.ttf");
 		      title.setTypeface(tf);
 		      cantitate.setTypeface(tf);
 		      
