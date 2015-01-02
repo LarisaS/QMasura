@@ -109,7 +109,7 @@ public class FrigiderulMeuGridAdaptor extends BaseAdapter {
 		          				.showImageOnFail(R.drawable.default_bg)
 		          				.showImageOnLoading(R.drawable.default_bg).build();
 		        
-		      title.setText(ingrediente.get(pozsition).getName());
+		      title.setText(ingrediente.get(pozsition).getGeneral_name());
 		      imageLoader.displayImage(ingrediente.get(pozsition).getPoza(), imageView, options);
 	          return grid;
 	}

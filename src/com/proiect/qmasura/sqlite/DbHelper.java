@@ -33,6 +33,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	private static final String SETTINGS_OPT_DATA_ACTUALIZARE_UM="um_update_time";
 	private static final String SETTINGS_OPT_DATA_ACTUALIZARE_ING="ingrediente_update_time";
+	private static final String SETTINGS_OPT_DATA_ACTUALIZARE_FRIGIDER="frigider_update_time";
 	
 	private static final String UNITATI_LOCAL_ID="_id";
 	private static final String UNITATI_ID="um_id";
@@ -51,7 +52,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String FRIGIDER_GENERAL_NAME="general_name";
 	private static final String FRIGIDER_CANTITATE="cantitate";
 	private static final String FRIGIDER_POZA="poza";
-	private static final String FRIGIDER_SHOW="category_id";
+	private static final String FRIGIDER_SHOW="show_ingredinet";
 	private static final String FRIGIDER_UM="um_frigider";
 	private static final String FRIGIDER_UM_ID="um_id_frigider";
 	
@@ -110,6 +111,11 @@ public class DbHelper extends SQLiteOpenHelper {
 		values.put(SETTINGS_OPTION, SETTINGS_OPT_DATA_ACTUALIZARE_ING);
 		values.put(SETTINGS_VALUE, "0");
 		long ing_id = db.insert(SETTINGS, null, values);
+		
+		values.clear();
+		values.put(SETTINGS_OPTION, SETTINGS_OPT_DATA_ACTUALIZARE_FRIGIDER);
+		values.put(SETTINGS_VALUE, "0");
+		long frig_id = db.insert(SETTINGS, null, values);
 	
 	}
 	@Override
@@ -130,6 +136,18 @@ public class DbHelper extends SQLiteOpenHelper {
 	    else return "";
 	}
 	
+	public String dataUpdateFrigider()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		 
+	    String selectQuery = "SELECT * FROM " + SETTINGS+" WHERE "+SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_FRIGIDER+"'";
+	 
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    if(c.moveToFirst())
+	    return c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
+	    else return "";
+	}
+	
 	public boolean insereazaIngredient(Ingredient ingr)
 	{
 		boolean done=true;
@@ -137,10 +155,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		
 		ContentValues values = new ContentValues();
 		values.put(INGREDIENTE_ID, ingr.getId());
-		values.put(INGREDIENTE_CATEGORY, ingr.getCategory_id());
 		values.put(INGREDIENTE_GENERAL_NAME, ingr.getGeneral_name());
 		values.put(INGREDIENTE_POZA, ingr.getPoza());
-		values.put(INGREDIENTE_NAME, ingr.getName());
 		long local_id = db.insert(INGREDIENTE, null, values);
 		
 		if(local_id>0)
@@ -206,6 +222,16 @@ public class DbHelper extends SQLiteOpenHelper {
 		String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
 		cv.put(SETTINGS_VALUE,modifiedDate);
 		db.update(SETTINGS, cv, SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_UM+"'", null);
+	}
+	
+	public void actualizeazaTimestampFrigider()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ContentValues cv = new ContentValues();
+		Date date = new Date();
+		String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+		cv.put(SETTINGS_VALUE,modifiedDate);
+		db.update(SETTINGS, cv, SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_FRIGIDER+"'", null);
 	}
 	
 	public boolean populeazaUnitatiDeMasura(ArrayList<UnitatiDeMasura> ums)

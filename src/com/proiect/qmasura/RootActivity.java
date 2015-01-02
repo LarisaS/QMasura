@@ -162,6 +162,34 @@ public class RootActivity extends ActionBarActivity
 				for(int i=0;i<units.size();i++)
 					units.get(i).display();
 			}
+			
+			String ultima_updatare_frig=db_helper.dataUpdateFrigider();
+			Log.i("ultima updatare frigider", "Frigifer: ultima updatare "+ultima_updatare_frig);
+			if(!ultima_updatare_frig.isEmpty() && ultima_updatare_frig.equals("0"))
+			{
+				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/frigiders/listAll");	 
+				HttpResponse rez = httpclient.execute(httppost);
+				String s= ClasaUtilitara.getStringFromJson(rez.getEntity());				
+				Log.i("update DB", "listare ingrediente default "+s);
+				JSONArray unitati_array= new JSONArray(s);
+				ArrayList<Ingredient> ums= new ArrayList<Ingredient>();
+				for(int j=0;j<unitati_array.length();j++)
+				{
+					JSONObject unit_obj=unitati_array.getJSONObject(j);
+					Ingredient um=ClasaUtilitara.getIngredientFromJSON(unit_obj);
+					ums.add(um);
+					db_helper.insereazaIngredientInFrigider(um);
+				}
+				
+				db_helper.actualizeazaTimestampFrigider();
+			}
+			else
+			{
+				Log.i("update DB", "unitati de masura");
+				ArrayList<Ingredient> ingredients= db_helper.ingredienteDinFrigider();
+				for(int i=0;i<ingredients.size();i++)
+				ingredients.get(i).display();
+			}
 			/*
 				HttpPost httppost = new HttpPost("https://qmasura-ruby.herokuapp.com/api/ingredients/listAll");	 
 				HttpResponse rez = httpclient.execute(httppost);

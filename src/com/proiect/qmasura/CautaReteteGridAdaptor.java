@@ -100,7 +100,7 @@ public class CautaReteteGridAdaptor  extends BaseAdapter {
 		          				.showImageOnLoading(R.drawable.default_bg).build();
 		          		  
 		        
-		      title.setText(ingrediente.get(pozsition).getName());
+		      title.setText(ingrediente.get(pozsition).getGeneral_name());
 		      imageLoader.displayImage(ingrediente.get(pozsition).getPoza(), imageView, options);
 		    	          
 	          

@@ -200,10 +200,31 @@ public class ClasaUtilitara {
 		 }
 		 Ingredient tmp= new Ingredient();
 		 tmp.setId(id);
-		 tmp.setName(name);
 		 tmp.setGeneral_name(general_name);
 		 tmp.setPoza(picture);
-		 tmp.setCategory_id(category_id);
+		 return tmp;
+		 
+	 }
+	
+	public static Ingredient getIngredientFromFrigiderJSON(JSONObject json_ingredient)
+	 {
+		
+		 String picture,general_name;
+		 int id;
+		 try
+		 {
+			 id=json_ingredient.getInt("id");
+			 picture=json_ingredient.getString("picture");
+			 general_name=json_ingredient.getString("general_name");
+		 }
+		 catch(Exception e)
+		 {
+			 return null;
+		 }
+		 Ingredient tmp= new Ingredient();
+		 tmp.setId(id);
+		 tmp.setGeneral_name(general_name);
+		 tmp.setPoza(picture);
 		 return tmp;
 		 
 	 }

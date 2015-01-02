@@ -45,7 +45,7 @@ public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> impl
 	            	ArrayList<Ingredient> filtrate= new ArrayList<Ingredient>();
 	            	
 	            	for(int i=0;i<originalValues.size();i++)
-	            		if(originalValues.get(i).getName().contains(constraint))
+	            		if(originalValues.get(i).getGeneral_name().contains(constraint))
 	            			filtrate.add(originalValues.get(i));
 	            	
 	                filterResults.values = filtrate;
@@ -109,7 +109,7 @@ public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> impl
 	      if(objectItem != null) {
 	          // get the TextView from the ViewHolder and then set the text (item name) and tag (item ID) values
 	         
-	    	 viewHolder.ingredient.setText(objectItem.getName());
+	    	 viewHolder.ingredient.setText(objectItem.getGeneral_name());
 	      }
 
 	      return convertView;
@@ -128,7 +128,7 @@ public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> impl
 	    
 	    public String getItemUsername(int position)
 	    {
-	    	return values.get(position).getName();
+	    	return values.get(position).getGeneral_name();
 	    }
 	    
 	 
