@@ -100,7 +100,8 @@ public class ListareReteteAdaptor extends BaseAdapter {
 		          		  
 		        
 		      title.setText(retete.get(pozsition).getName());
-		      imageLoader.displayImage(retete.get(pozsition).getPoza(), imageView, options);
+		      String urlPoza="https://qmasura-ruby.herokuapp.com/api/recipes/getPicture?id="+retete.get(pozsition).getId();
+		      imageLoader.displayImage(urlPoza, imageView, options);
 	          
 	          //download and display image from url
 	          return grid;

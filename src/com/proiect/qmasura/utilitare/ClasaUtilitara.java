@@ -384,6 +384,7 @@ public class ClasaUtilitara {
 	{
 		StringBuilder html= new StringBuilder();
 		html.append("<div>");
+		html.append("<img width='"+100+"%' alt='"+reteta.getName()+"' src='https://qmasura-ruby.herokuapp.com/api/recipes/getPicture?id="+reteta.getId()+"' />");
 		html.append("<table><tbody><tr><td>");
 		html.append("</td><td>");
 		html.append("</td><td>");
