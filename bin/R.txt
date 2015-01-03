@@ -264,7 +264,7 @@ int id action_menu_divider 0x7f050016
 int id action_menu_presenter 0x7f050017
 int id action_mode_close_button 0x7f050024
 int id activity_chooser_view_content 0x7f050025
-int id adauga_ingredient 0x7f05005b
+int id adauga_ingredient 0x7f05005c
 int id adauga_ingredientul_selectat 0x7f05003e
 int id adauga_meniu 0x7f05004c
 int id always 0x7f05000b
@@ -273,13 +273,14 @@ int id cantitate_ingredient 0x7f05003d
 int id cauta_retete_action 0x7f050040
 int id checkbox 0x7f05002d
 int id collapseActionView 0x7f05000d
-int id container 0x7f050059
+int id container 0x7f05005a
+int id continut_reteta 0x7f050058
 int id default_activity_button 0x7f050028
 int id denumire_meniu 0x7f05004e
 int id dialog 0x7f05000e
 int id disableHome 0x7f050008
 int id disponibilitate 0x7f050050
-int id drawer_layout 0x7f050058
+int id drawer_layout 0x7f050059
 int id dropdown 0x7f05000f
 int id edit_query 0x7f050030
 int id end 0x7f050013
@@ -310,7 +311,7 @@ int id menu_item_icon 0x7f050055
 int id menu_item_layout 0x7f050054
 int id menu_item_title 0x7f050056
 int id middle 0x7f050012
-int id navigation_drawer 0x7f05005a
+int id navigation_drawer 0x7f05005b
 int id never 0x7f050009
 int id none 0x7f050010
 int id normal 0x7f050000
@@ -337,7 +338,7 @@ int id showHome 0x7f050004
 int id showTitle 0x7f050006
 int id split_action_bar 0x7f05001e
 int id submit_area 0x7f050039
-int id sugereaza_retete 0x7f05005c
+int id sugereaza_retete 0x7f05005d
 int id tabMode 0x7f050002
 int id title 0x7f05002b
 int id titlu_reteta_sugerata 0x7f050053
@@ -386,8 +387,9 @@ int layout listare_retete 0x7f030024
 int layout listare_retete_item 0x7f030025
 int layout menu_item 0x7f030026
 int layout placeholder_fragment 0x7f030027
-int layout root_view 0x7f030028
-int layout support_simple_spinner_dropdown_item 0x7f030029
+int layout reteta_dataliu 0x7f030028
+int layout root_view 0x7f030029
+int layout support_simple_spinner_dropdown_item 0x7f03002a
 int menu global 0x7f0c0000
 int menu home_screen 0x7f0c0001
 int menu meniu_frigider 0x7f0c0002

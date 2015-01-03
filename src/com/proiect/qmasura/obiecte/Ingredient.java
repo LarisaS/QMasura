@@ -10,7 +10,7 @@ public class Ingredient implements Serializable {
 	/*
 	 * "id":1,"name":"mere","general_name":"mere","category_id":6,"buc_quantity":150.0,"picture":null
 	 * */
-	private String general_name,poza;
+	private String general_name,poza,name;
 	private int id;
 	private  float cantitate;
 	private int um_id=0;
@@ -39,6 +39,14 @@ public class Ingredient implements Serializable {
 	}
 	public void setGeneral_name(String general_name) {
 		this.general_name = general_name;
+	}
+	public String getName()
+	{
+		return name;
+	}
+	public void setName(String name)
+	{
+		this.name=name;
 	}
 	public String getPoza() {
 		return poza;

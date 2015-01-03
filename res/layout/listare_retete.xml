@@ -9,13 +9,12 @@
         android:src="@drawable/default_bg"
         android:alpha="0.25"
         android:scaleType="centerCrop"/>
-    
- 				<GridView
-    			    android:id="@+id/lista_retete_sugerate"
-    			    android:layout_width="fill_parent"
-    			    android:layout_height="fill_parent"
-    			    android:numColumns="2"
-    			     android:stretchMode="columnWidth"  
-    			    android:layout_marginTop="10dp" >
-				</GridView>
+		<GridView
+ 			    android:id="@+id/lista_retete_sugerate"
+ 			    android:layout_width="fill_parent"
+ 			    android:layout_height="fill_parent"
+ 			    android:numColumns="2"
+ 			    android:stretchMode="columnWidth"  
+ 			    android:layout_marginTop="10dp" >
+		</GridView>
 </RelativeLayout>

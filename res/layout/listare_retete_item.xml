@@ -29,13 +29,6 @@
        ></TextView>
     
     </RelativeLayout>
-     <ImageButton android:id="@+id/grid_item_sterge"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-     	android:background="@null"
-        android:src="@drawable/meniu_icon"
-        android:scaleType="centerCrop"
-        android:layout_alignParentRight="true"/>
-    
+
    
 </com.proiect.qmasura.utilitare.NewGridItem>

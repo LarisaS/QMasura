@@ -139,17 +139,41 @@ public class ClasaUtilitara {
 	public static Reteta getRetetaFromJSON(JSONObject json_reteta)
 	 {
 		  /**
-		   * private String description,name, picture;
-			 private String dificultate;
-			 private int time,nr_persons;
-			 private int local_id, id;
+		   * ArrayList<Ingredient> ingrediente;
+			private String description,name, picture;
+			private String dificultate;
+			private int time,nr_persons;
+			private int local_id, id;
 		   * 
 		   */
 		    
 		 String name,picture,description,dificultate;
-		 int time, nr_persons,local_id,id;
-		 
+		 int time, nr_persons,id;
 		 Reteta tmp= new Reteta();
+		 try
+		 {
+			name= json_reteta.getString("name");
+			id=json_reteta.getInt("id");
+			picture=json_reteta.getString("picture");
+			description=json_reteta.getString("description");
+			JSONArray ingredients= json_reteta.getJSONArray("ingredients");
+			ArrayList<Ingredient> ingrediente= new ArrayList<Ingredient>();
+			for(int i=0;i<ingredients.length();i++)
+			{
+				JSONObject ingr_obj=ingredients.getJSONObject(i);
+				Ingredient ingr= getIngredientFromJSON(ingr_obj);
+				ingrediente.add(ingr);
+			}
+			tmp.setId(id);
+			tmp.setName(name);
+			tmp.setDescription(description);
+			tmp.setIngrediente(ingrediente);
+			tmp.setIngrediente(ingrediente);
+		 }
+		 catch(Exception e)
+		 {
+		 }
+		 
 		 return tmp;
 		 
 	 }
@@ -184,7 +208,7 @@ public class ClasaUtilitara {
 		   *"picture":null
 		   */
 		 
-		 String picture="",general_name,um;
+		 String picture="",general_name,um,name;
 		 int um_id,id;
 		 float cantitate=0;
 		 try
@@ -193,6 +217,7 @@ public class ClasaUtilitara {
 			 id=json_ingredient.getInt("id");
 			// picture=json_ingredient.getString("picture");
 			 general_name=json_ingredient.getString("general_name");
+			 name=json_ingredient.getString("name");
 			 um_id=um_json.getInt("id");
 			 um=um_json.getString("name");
 			 if(json_ingredient.has("cantitate"))
@@ -205,6 +230,7 @@ public class ClasaUtilitara {
 		 Ingredient tmp= new Ingredient();
 		 tmp.setId(id);
 		 tmp.setGeneral_name(general_name);
+		 tmp.setName(name);
 		 tmp.setPoza(picture);
 		 tmp.setUm(um);
 		 tmp.setUm_id(um_id);
@@ -223,14 +249,14 @@ public class ClasaUtilitara {
 		 
 		 String name;
 		 int id_ingredient;
-		 float cantitate=0;
+		 String cantitate="-";
 		 try
 		 {
 			 id_ingredient=json_ingredient.getInt("id_ingredient");
 			// picture=json_ingredient.getString("picture");
 			 name=json_ingredient.getString("name");
 			 if(json_ingredient.has("cantitate"))
-				 cantitate=(float)json_ingredient.getDouble("cantitate");
+				 cantitate=json_ingredient.getString("cantitate");
 		 }
 		 catch(Exception e)
 		 {
@@ -302,4 +328,83 @@ public class ClasaUtilitara {
 		return tmp;
 	}
 	 
+	public static String styleForReceipePage()
+	{
+		return "<style>" +
+				""+
+				"</style>";
+	}
+	
+	public static String listOfIngredientsHTML(ArrayList<Ingredient> ingrediente)
+	{
+		StringBuilder html= new StringBuilder();
+		html.append("<h3 class='ingrediente'>");
+		html.append("Ingrediente");
+		html.append("</h3>");
+		html.append("<ul>");
+		if(ingrediente.size()>0)
+			for(int i=0;i<ingrediente.size();i++)
+			{
+				if(ingrediente.get(i)!=null)
+				{
+					ingrediente.get(i).display();
+					html.append("<li>");
+					html.append(ingrediente.get(i).getGeneral_name());
+					html.append(ingrediente.get(i).getCantitateCuUnitati());
+					html.append("</li>");
+				}
+			}
+		else
+			html.append("Ingredientele nu sunt disponibile");
+		html.append("</ul>");
+		String rsp=html.toString();
+		return rsp;
+	}
+	
+	public static String listOfMissingIngredientsHTML(ArrayList<IngredientLipsa> ingrediente)
+	{
+		StringBuilder html= new StringBuilder();
+		html.append("<ul>");
+		for(int i=0;i<ingrediente.size();i++)
+		{
+			if(ingrediente.get(i)!=null)
+			{
+				html.append("<li>");
+				html.append(ingrediente.get(i).getName());
+				html.append(ingrediente.get(i).getCantitate());
+				html.append("</li>");
+			}
+		}
+		html.append("</ul>");
+		String rsp=html.toString();
+		return rsp;
+	}
+	
+	public static String descriereReteta(Reteta reteta)
+	{
+		StringBuilder html= new StringBuilder();
+		html.append("<div>");
+		html.append("<table><tbody><tr><td>");
+		html.append("</td><td>");
+		html.append("</td><td>");
+		html.append("</td></tr></tbody></table>");
+		html.append(listOfIngredientsHTML(reteta.getIngrediente()));
+		html.append(listOfMissingIngredientsHTML(reteta.getIngrediente_lipsa()));
+		html.append("<span class='descriere'>");
+		html.append(reteta.getDescription());
+		html.append("</span>");
+		html.append("</div>");
+		String rsp=html.toString();
+		return rsp;
+	}
+	
+	public static String descriereRetetaHTML(Reteta reteta)
+	{
+		StringBuilder html= new StringBuilder();
+		html.append(styleForReceipePage());
+		html.append(listOfIngredientsHTML(reteta.getIngrediente()));
+		html.append(listOfMissingIngredientsHTML(reteta.getIngredienteLipsa()));
+		html.append(descriereRetetaHTML(reteta));
+		return html.toString();
+	}
 }

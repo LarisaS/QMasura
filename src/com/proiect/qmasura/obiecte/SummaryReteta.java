@@ -71,6 +71,10 @@ public class SummaryReteta implements Serializable{
 		this.penalty = penalty;
 	}
 	
+	public ArrayList<IngredientLipsa> getIngredienteLipsa()
+	{
+		return lipsesc;
+	}
 	public void display()
 	{
 		Log.i("REteta ", "Reteta "+id+" "+name+" "+penalty+" Ingrediente lipsa"+lipsesc.size());

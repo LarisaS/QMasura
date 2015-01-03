@@ -1114,7 +1114,7 @@ containing a value of this type.
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
         public static final int activity_chooser_view_content=0x7f050025;
-        public static final int adauga_ingredient=0x7f05005b;
+        public static final int adauga_ingredient=0x7f05005c;
         public static final int adauga_ingredientul_selectat=0x7f05003e;
         public static final int adauga_meniu=0x7f05004c;
         public static final int always=0x7f05000b;
@@ -1123,13 +1123,14 @@ containing a value of this type.
         public static final int cauta_retete_action=0x7f050040;
         public static final int checkbox=0x7f05002d;
         public static final int collapseActionView=0x7f05000d;
-        public static final int container=0x7f050059;
+        public static final int container=0x7f05005a;
+        public static final int continut_reteta=0x7f050058;
         public static final int default_activity_button=0x7f050028;
         public static final int denumire_meniu=0x7f05004e;
         public static final int dialog=0x7f05000e;
         public static final int disableHome=0x7f050008;
         public static final int disponibilitate=0x7f050050;
-        public static final int drawer_layout=0x7f050058;
+        public static final int drawer_layout=0x7f050059;
         public static final int dropdown=0x7f05000f;
         public static final int edit_query=0x7f050030;
         public static final int end=0x7f050013;
@@ -1160,7 +1161,7 @@ containing a value of this type.
         public static final int menu_item_layout=0x7f050054;
         public static final int menu_item_title=0x7f050056;
         public static final int middle=0x7f050012;
-        public static final int navigation_drawer=0x7f05005a;
+        public static final int navigation_drawer=0x7f05005b;
         public static final int never=0x7f050009;
         public static final int none=0x7f050010;
         public static final int normal=0x7f050000;
@@ -1187,7 +1188,7 @@ containing a value of this type.
         public static final int showTitle=0x7f050006;
         public static final int split_action_bar=0x7f05001e;
         public static final int submit_area=0x7f050039;
-        public static final int sugereaza_retete=0x7f05005c;
+        public static final int sugereaza_retete=0x7f05005d;
         public static final int tabMode=0x7f050002;
         public static final int title=0x7f05002b;
         public static final int titlu_reteta_sugerata=0x7f050053;
@@ -1262,8 +1263,9 @@ containing a value of this type.
         public static final int listare_retete_item=0x7f030025;
         public static final int menu_item=0x7f030026;
         public static final int placeholder_fragment=0x7f030027;
-        public static final int root_view=0x7f030028;
-        public static final int support_simple_spinner_dropdown_item=0x7f030029;
+        public static final int reteta_dataliu=0x7f030028;
+        public static final int root_view=0x7f030029;
+        public static final int support_simple_spinner_dropdown_item=0x7f03002a;
     }
     public static final class menu {
         public static final int global=0x7f0c0000;

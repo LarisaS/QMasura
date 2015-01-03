@@ -33,6 +33,16 @@ public class ListareReteteAdaptor extends BaseAdapter {
 
 	}
 
+	@Override
+	public boolean areAllItemsEnabled() {
+	    return true;
+	}
+
+	@Override
+	public boolean isEnabled(int position) {
+	    return true;
+	}
+	
 	
 	@Override
 	public int getCount() {
@@ -91,7 +101,6 @@ public class ListareReteteAdaptor extends BaseAdapter {
 		        
 		      title.setText(retete.get(pozsition).getName());
 		      imageLoader.displayImage(retete.get(pozsition).getPoza(), imageView, options);
-		    	          
 	          
 	          //download and display image from url
 	          return grid;

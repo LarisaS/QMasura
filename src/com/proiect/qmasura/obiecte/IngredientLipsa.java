@@ -2,15 +2,17 @@ package com.proiect.qmasura.obiecte;
 
 import java.io.Serializable;
 
+import android.util.Log;
+
 public class IngredientLipsa implements Serializable {
 
-	private String name;
+	private String name,cantitate;
 	private int id;
-	private float cantitate;
+	
 	
 	public IngredientLipsa()
 	{}
-	public IngredientLipsa(int id, String name,float cantitate)
+	public IngredientLipsa(int id, String name,String cantitate)
 	{
 		this.id=id;
 		this.name=name;
@@ -28,12 +30,16 @@ public class IngredientLipsa implements Serializable {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public float getCantitate() {
+	public String getCantitate() {
 		return cantitate;
 	}
-	public void setCantitate(float cantitate) {
+	public void setCantitate(String cantitate) {
 		this.cantitate = cantitate;
 	}
 	
-	
+	public void display()
+	{
+		Log.i("Ingredient Lipsa","Ingredient "+id+" "+name+" "+cantitate);
+		
+	}
 }
