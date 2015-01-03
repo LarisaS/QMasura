@@ -78,7 +78,7 @@ public class ListareReteteAdaptor extends BaseAdapter {
 	          });*/
 	          
 	          Typeface tf = Typeface.createFromAsset(context.getAssets(),
-		                "fonts/Sunshine.ttf");
+		                "fonts/Bombardier.ttf");
 		      title.setTypeface(tf);
 		      
 		      ImageLoader imageLoader = ImageLoader.getInstance();
