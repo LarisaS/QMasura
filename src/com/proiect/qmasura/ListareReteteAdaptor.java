@@ -18,13 +18,14 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.proiect.qmasura.obiecte.Reteta;
+import com.proiect.qmasura.obiecte.SummaryReteta;
 
 public class ListareReteteAdaptor extends BaseAdapter {
 
 	private Context context;
-	private ArrayList<Reteta> retete;
+	private ArrayList<SummaryReteta> retete;
 	
-	public ListareReteteAdaptor(Context context, ArrayList<Reteta> values)
+	public ListareReteteAdaptor(Context context, ArrayList<SummaryReteta> values)
 	{
 		this.context=context;
 		this.retete=values;
@@ -89,7 +90,7 @@ public class ListareReteteAdaptor extends BaseAdapter {
 		          		  
 		        
 		      title.setText(retete.get(pozsition).getName());
-		      imageLoader.displayImage(retete.get(pozsition).getPicure(), imageView, options);
+		      imageLoader.displayImage(retete.get(pozsition).getPoza(), imageView, options);
 		    	          
 	          
 	          //download and display image from url

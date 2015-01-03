@@ -100,10 +100,10 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         ArrayList<String> menu_items=new ArrayList<String>();
+       // menu_items.add(getString(R.string.title_section1));
         menu_items.add(getString(R.string.title_section1));
         menu_items.add(getString(R.string.title_section2));
-        menu_items.add(getString(R.string.title_section3));
-        menu_items.add(getString(R.string.title_section4));
+       // menu_items.add(getString(R.string.title_section3));
         
         MenuItemAdapter adapter= new MenuItemAdapter(getActivity().getApplicationContext(),menu_items);
         

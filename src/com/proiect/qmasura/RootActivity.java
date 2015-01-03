@@ -122,6 +122,7 @@ public class RootActivity extends ActionBarActivity
     	
     	protected void onPostExecute(Integer result){ 
     	pd.dismiss();
+    	  Log.i("update DB", "on post execute"); 
     	}
     	 
     	protected void onProgressUpdate(String... text) {
@@ -215,7 +216,7 @@ public class RootActivity extends ActionBarActivity
       
         switch(number)
         {
-        case 1:  
+        /**case 1:  
         {	
             Bundle args = new Bundle();
             args.putInt("section_number", number);
@@ -223,8 +224,8 @@ public class RootActivity extends ActionBarActivity
             fragment.setArguments(args);
             fragmentManager.beginTransaction().replace(R.id.container, fragment ).commit();
             break;  
-         }
-        case 2: 
+         }*/
+        case 1: 
         {	
            Bundle args = new Bundle();
            args.putInt("section_number", number);
@@ -233,7 +234,7 @@ public class RootActivity extends ActionBarActivity
            fragmentManager.beginTransaction().replace(R.id.container, fragment ).commit();
            break;  
         }
-        case 3:
+        case 2:
         	{
         		 Bundle args = new Bundle();
                  args.putInt("section_number", number);
@@ -242,7 +243,7 @@ public class RootActivity extends ActionBarActivity
         		 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
                  break;
         	}
-        case 4:
+        case 3:
         	{
         		Bundle args = new Bundle();
                 args.putInt("section_number", number);

@@ -25,7 +25,9 @@ import android.util.Log;
 
 import com.proiect.qmasura.R;
 import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.IngredientLipsa;
 import com.proiect.qmasura.obiecte.Reteta;
+import com.proiect.qmasura.obiecte.SummaryReteta;
 import com.proiect.qmasura.obiecte.UnitatiDeMasura;
 
 
@@ -211,6 +213,38 @@ public class ClasaUtilitara {
 		 
 	 }
 	
+	public static IngredientLipsa getIngredientLipsaFromJSON(JSONObject json_ingredient)
+	 {
+		  /**
+		   *"id_ingredient":1,
+		   *"name":"mere",
+		   *"cantitate":"mere"
+		   */
+		 
+		 String name;
+		 int id_ingredient;
+		 float cantitate=0;
+		 try
+		 {
+			 id_ingredient=json_ingredient.getInt("id_ingredient");
+			// picture=json_ingredient.getString("picture");
+			 name=json_ingredient.getString("name");
+			 if(json_ingredient.has("cantitate"))
+				 cantitate=(float)json_ingredient.getDouble("cantitate");
+		 }
+		 catch(Exception e)
+		 {
+			 return null;
+		 }
+		 IngredientLipsa tmp= new IngredientLipsa();
+		 tmp.setId(id_ingredient);
+		 tmp.setName(name);
+		 tmp.setCantitate(cantitate);
+		 return tmp;
+		 
+	 }
+	
+	
 	public static Ingredient getIngredientFromFrigiderJSON(JSONObject json_ingredient)
 	 {
 		
@@ -233,5 +267,39 @@ public class ClasaUtilitara {
 		 return tmp;
 		 
 	 }
+
+	public static SummaryReteta getSummaryRetetaFromJSON(JSONObject reteta_json) {
+		// TODO Auto-generated method stub
+		String name,poza,link;
+		int id;
+		float penalty;
+		 
+		SummaryReteta tmp= new SummaryReteta();
+		
+		 try
+		 {
+			 id=reteta_json.getInt("recipe_id");
+			 poza="";
+			 penalty=(float)reteta_json.getDouble("penalty");
+			 name=reteta_json.getString("name");
+			 link=reteta_json.getString("link");
+			 JSONArray lipsa= reteta_json.getJSONArray("lipsesc");
+			 for(int i=0;i<lipsa.length();i++)
+			 {
+				 IngredientLipsa li=getIngredientLipsaFromJSON(lipsa.getJSONObject(i));
+				 tmp.adaugaIngredientLipsa(li);
+			 }
+			 tmp.setId(id);
+			 tmp.setLink(link);
+			 tmp.setName(name);
+			 tmp.setPenalty(penalty);
+			 tmp.setPoza(poza);
+		 }
+		 catch(Exception e)
+		 {
+			 return null;
+		 }
+		return tmp;
+	}
 	 
 }

@@ -39,16 +39,16 @@ public class MenuItemAdapter extends ArrayAdapter<String> {
 	       if(position==0)
 	    	   logo.setImageResource(R.drawable.dark_logo);
 	       else
-	    	   if(position==1)
+	    	  /* if(position==1)
 	    		   logo.setImageResource(R.drawable.cauta);
-	    	   else
-	    		   if(position==2)
+	    	   else*/
+	    		   if(position==1)
 	    			   logo.setImageResource(R.drawable.frigider);
 	    		   else
-	    			   if(position==3)
+	    			   if(position==2)
 	    				   logo.setImageResource(R.drawable.meniu_icon);
 	    			   else 
-	    				   if(position==4)
+	    				   if(position==3)
 	    					   logo.setImageResource(R.drawable.lista);
 	       
 	       title.setText(values.get(position));

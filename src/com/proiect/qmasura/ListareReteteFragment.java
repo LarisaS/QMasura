@@ -18,11 +18,12 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.proiect.qmasura.obiecte.Ingredient;
 import com.proiect.qmasura.obiecte.Reteta;
+import com.proiect.qmasura.obiecte.SummaryReteta;
 
 public class ListareReteteFragment extends Fragment {
 	View fragmentView;
 	private static final String ARG_SECTION_NUMBER = "section_number";
-	private ArrayList<Reteta> retete;
+	private ArrayList<SummaryReteta> retete;
 	
 	 @Override
 	    public void onCreate(Bundle savedInstanceState) {
@@ -34,9 +35,9 @@ public class ListareReteteFragment extends Fragment {
 		        // Inflate the layout for this fragment
 		 
 		 			if(!this.getArguments().isEmpty() && this.getArguments().containsKey("retete"))
-		 					retete=(ArrayList<Reteta>) this.getArguments().getSerializable("retete");
+		 					retete=(ArrayList<SummaryReteta>) this.getArguments().getSerializable("retete");
 		 			else
-		 					retete= new ArrayList<Reteta>();
+		 					retete= new ArrayList<SummaryReteta>();
 		 	
 		            fragmentView=inflater.inflate(R.layout.listare_retete, container, false);
 		         	GridView imagini= (GridView)fragmentView.findViewById(R.id.lista_retete_sugerate);

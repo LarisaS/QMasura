@@ -23,6 +23,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String INGREDIENTE="ingrediente";
 	private static final String FRIGIDER="frigider";
 	private static final String UNITATI="unitati";
+	private static final String RETETE="retete";
+	private static final String MENIURI="meniuri";
 	
 	//tabela care retine data ultimei actualizari a unitatilor de masura si alte setari de care mai avem nevoie
 	private static final String SETTINGS="settings";

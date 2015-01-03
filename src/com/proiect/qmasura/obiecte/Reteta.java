@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.proiect.qmasura.utilitare.ClasaUtilitara;
 
-public class Reteta implements Serializable {
+public class Reteta  implements Serializable {
 	
 	/*
 	 * [{"id":1,
