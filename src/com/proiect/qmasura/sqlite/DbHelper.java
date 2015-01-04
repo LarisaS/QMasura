@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.Reteta;
 import com.proiect.qmasura.obiecte.UnitatiDeMasura;
 
 import android.content.ContentValues;
@@ -25,6 +26,15 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String UNITATI="unitati";
 	private static final String RETETE="retete";
 	private static final String MENIURI="meniuri";
+	private static final String INGREDIENTE_RETETE="ingrediente_retete";
+	
+	private static final String INGREDIENTE_R_ID="_id";
+	private static final String INGREDIENTE_R_NAME="name";
+	private static final String INGREDIENTE_R_GENERAL_NAME="general_name";
+	private static final String INGREDIENTE_R_CANTITATE="cantitate";
+	private static final String INGREDIENTE_R_UM_ID="um_id";
+	private static final String INGREDIENTE_R_UM="um";
+	private static final String INGREDIENTE_R_RETETA="reteta_id";
 	
 	//tabela care retine data ultimei actualizari a unitatilor de masura si alte setari de care mai avem nevoie
 	private static final String SETTINGS="settings";
@@ -59,6 +69,13 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String FRIGIDER_UM="um_frigider";
 	private static final String FRIGIDER_UM_ID="um_id_frigider";
 	
+	private static final String RETETE_ID="_id";
+	private static final String RETETE_NAME="name";
+	private static final String RETETE_DESC="description";
+	private static final String RETETE_DIF="dificultate";
+	private static final String RETETE_PERS="nr_persoane";
+	private static final String RETETE_TIME="time";
+	private static final String RETETE_POZA="poza";
 	
 	private static final int SCHEMA_VERSION=1;
 
@@ -91,6 +108,23 @@ public class DbHelper extends SQLiteOpenHelper {
 			SETTINGS_OPTION+" varchar2(100),"+
 			SETTINGS_VALUE+" varchar2(100));";
 
+	private static final String createTableIngredienteReteta="CREATE TABLE "+INGREDIENTE_RETETE+ " ( "+
+			INGREDIENTE_R_ID+ " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+			INGREDIENTE_R_NAME+ " varchar2(100)," +
+			INGREDIENTE_R_GENERAL_NAME+" varchar2(100)," +
+			INGREDIENTE_R_CANTITATE +" real," +
+			INGREDIENTE_R_UM+" varchar2(100)," +
+			INGREDIENTE_R_UM_ID+" integer," +
+			INGREDIENTE_R_RETETA+" integer ) ";
+	private static final String createTableReteta="CREATE TABLE "+RETETE+" (" +
+			RETETE_ID+" integer primary key autoincrement, " +
+			RETETE_NAME+" varchar2(255), " +
+			RETETE_DESC+" text, " +
+			RETETE_TIME+" varchar2(100)," +
+			RETETE_PERS+" varchar2(100)," +
+			RETETE_POZA+" varchar2(255)," +
+			RETETE_DIF+" varchr2(100) )";
+	
 	
 	public DbHelper(Context context) {
 		super(context,DATABASE_NAME, null, SCHEMA_VERSION);
@@ -105,6 +139,8 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.execSQL(createTableFrigider);
 		db.execSQL(createTableUnitati);
 		db.execSQL(createTableSettings);
+		db.execSQL(createTableIngredienteReteta);
+		db.execSQL(createTableReteta);
 	
 		ContentValues values = new ContentValues();
 		values.put(SETTINGS_OPTION, SETTINGS_OPT_DATA_ACTUALIZARE_UM);
@@ -170,6 +206,73 @@ public class DbHelper extends SQLiteOpenHelper {
 		
 		return done;
 	}
+	
+	
+	private boolean adaugaIngredientInReteta(Ingredient ingr,long reteta_id)
+	{
+		boolean done=true;
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(INGREDIENTE_R_RETETA, reteta_id);
+		values.put(INGREDIENTE_R_GENERAL_NAME, ingr.getGeneral_name());
+		values.put(INGREDIENTE_R_NAME, ingr.getName());
+		values.put(INGREDIENTE_R_CANTITATE, ingr.getCantitate());
+		values.put(INGREDIENTE_R_NAME, ingr.getName());
+		values.put(INGREDIENTE_R_UM, ingr.getUm());
+		values.put(INGREDIENTE_R_UM_ID, ingr.getUm_id());
+		
+		long local_id = db.insert(INGREDIENTE_RETETE, null, values);
+		
+		if(local_id>0)
+			done=true;
+		else
+			done=false;
+		
+		return done;
+	}
+	
+	public boolean salveazaReteta(Reteta reteta)
+	{
+		boolean done=true;
+		SQLiteDatabase db = this.getReadableDatabase();
+		
+		ContentValues values = new ContentValues();
+		values.put(RETETE_NAME, reteta.getName());
+		values.put(RETETE_DESC, reteta.getDescription());
+		values.put(RETETE_TIME, "-");
+		values.put(RETETE_PERS, "-");
+		values.put(RETETE_DIF, "-");
+		values.put(RETETE_POZA, reteta.getPicture());
+		
+		long local_id = db.insert(RETETE, null, values);
+		
+		if(local_id>0)
+		{
+			ArrayList<Ingredient> ingrediente= reteta.getIngrediente();
+			for(int i=0;i<ingrediente.size();i++)
+			{
+				adaugaIngredientInReteta(ingrediente.get(i),local_id);
+			}
+		}
+		else return false;
+		
+		if(local_id>0)
+			done=true;
+		else
+			done=false;
+		return done;
+	}
+	
+	
+	public ArrayList<Reteta> listaReteteSalvate()
+	{
+		ArrayList<Reteta> retete= new ArrayList<Reteta>();
+		
+		
+		return retete;
+	}
+	
 	
 	public boolean insereazaIngredientInFrigider(Ingredient ingr)
 	{
