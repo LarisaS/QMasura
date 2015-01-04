@@ -51,6 +51,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String INGREDIENTE_CATEGORY="category_id";
 	
 	private static final String FRIGIDER_LOCAL_ID="_id";
+	private static final String FRIGIDER_ID="ingredient_id";
 	private static final String FRIGIDER_GENERAL_NAME="general_name";
 	private static final String FRIGIDER_CANTITATE="cantitate";
 	private static final String FRIGIDER_POZA="poza";
@@ -73,6 +74,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String createTableFrigider="CREATE TABLE "+FRIGIDER+" (" +
 			FRIGIDER_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
 			FRIGIDER_GENERAL_NAME+" varchar2(100)," +
+			FRIGIDER_ID+" integer," +
 			FRIGIDER_CANTITATE+" real," +
 			FRIGIDER_POZA+" varchar2(255)," +
 			FRIGIDER_UM+" varchar2(255)," +

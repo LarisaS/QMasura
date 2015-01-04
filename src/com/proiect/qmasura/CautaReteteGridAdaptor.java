@@ -31,7 +31,6 @@ public class CautaReteteGridAdaptor  extends BaseAdapter {
 		//Toast.makeText(context, ""+poze.size(), Toast.LENGTH_SHORT).show();
 		 final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 		 final int cacheSize = maxMemory / 8;
-
 	}
 
 	public CautaReteteGridAdaptor(Context context, ArrayList<Ingredient> poze,LruCache<String,Bitmap> cache)
