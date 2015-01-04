@@ -7,7 +7,9 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.apache.http.HttpEntity;
@@ -211,30 +213,57 @@ public class ClasaUtilitara {
 		 String picture="",general_name,um,name;
 		 int um_id,id;
 		 float cantitate=0;
+		 Ingredient tmp= new Ingredient();
 		 try
 		 {
-			 JSONObject um_json= json_ingredient.getJSONObject("unity");
-			 id=json_ingredient.getInt("id");
-			// picture=json_ingredient.getString("picture");
-			 general_name=json_ingredient.getString("general_name");
-			 name=json_ingredient.getString("name");
-			 um_id=um_json.getInt("id");
-			 um=um_json.getString("name");
-			 if(json_ingredient.has("cantitate"))
-				 cantitate=(float)json_ingredient.getDouble("cantitate");
+			 if(json_ingredient.has("unity"))
+			 {
+				 JSONObject um_json= json_ingredient.getJSONObject("unity"); 
+				 um_id=um_json.getInt("id");
+				 um=um_json.getString("name");
+				 tmp.setUm(um);
+				 tmp.setUm_id(um_id);
+			 }
+			 
+			 if(json_ingredient.has("id"))
+			 {
+				 id=json_ingredient.getInt("id");
+			 }
+			 else id=0;
+			 if(json_ingredient.has("general_name"))
+			 {
+				 general_name=json_ingredient.getString("general_name");
+			 }
+			 else
+				 general_name="";
+			 if(json_ingredient.has("name"))
+			 {
+				 name=json_ingredient.getString("name");
+			 }
+			 else
+				 name="";
+			if(json_ingredient.has("cantitate"))
+			{
+				cantitate=(float)json_ingredient.getDouble("cantitate");
+			}
+			else
+				cantitate=0;
+			
+			tmp.setId(id);
+			tmp.setGeneral_name(general_name);
+			tmp.setName(name);
+			tmp.setCantitate(cantitate);
+			tmp.setPoza(picture);
+			 
+			 
+			 
 		 }
 		 catch(Exception e)
 		 {
 			 return null;
 		 }
-		 Ingredient tmp= new Ingredient();
-		 tmp.setId(id);
-		 tmp.setGeneral_name(general_name);
-		 tmp.setName(name);
-		 tmp.setPoza(picture);
-		 tmp.setUm(um);
-		 tmp.setUm_id(um_id);
-		 tmp.setCantitate(cantitate);
+		 
+		 
 		 return tmp;
 		 
 	 }
@@ -331,12 +360,26 @@ public class ClasaUtilitara {
 	public static String styleForReceipePage()
 	{
 		return "<style>" +
-				""+
+				".wrapper_continut { font-size:14px; } "+
+				".lipseste { color:#ff0000; }"+
+				".title { width:100%; text-align:center; font-size:18px; }"+
+				"h3 { font-size:16px; }"+
+				" ul { padding:0px; margin:0px; }"+
+				" ul li { font-weight:300; list-style-type: none; padding:0px; margin:0px;}"+
+				".spacer { padding:5px 0;}"+
+				".descriere {}"+
 				"</style>";
 	}
 	
-	public static String listOfIngredientsHTML(ArrayList<Ingredient> ingrediente)
+	public static String listOfIngredientsHTML(ArrayList<Ingredient> ingrediente,ArrayList<IngredientLipsa> lipsa)
 	{
+		Map<Integer,IngredientLipsa> lipsa_map= new HashMap<Integer, IngredientLipsa>();
+		
+		for(int i=0;i<lipsa.size();i++)
+		{
+			lipsa_map.put(lipsa.get(i).getId(), lipsa.get(i));
+		}
+		
 		StringBuilder html= new StringBuilder();
 		html.append("<h3 class='ingrediente'>");
 		html.append("Ingrediente");
@@ -348,9 +391,14 @@ public class ClasaUtilitara {
 				if(ingrediente.get(i)!=null)
 				{
 					ingrediente.get(i).display();
-					html.append("<li>");
+					if(lipsa_map.containsKey(ingrediente.get(i).getId()))
+					{
+						html.append("<li class='lipseste'>");
+					}
+					else
+						html.append("<li>");
 					html.append(ingrediente.get(i).getGeneral_name());
-					html.append(ingrediente.get(i).getCantitateCuUnitati());
+					html.append("  "+ingrediente.get(i).getCantitateCuUnitati());
 					html.append("</li>");
 				}
 			}
@@ -383,14 +431,17 @@ public class ClasaUtilitara {
 	public static String descriereReteta(Reteta reteta)
 	{
 		StringBuilder html= new StringBuilder();
-		html.append("<div>");
+		html.append(styleForReceipePage());
+		html.append("<div class='wrapper_continut'>");
+		html.append("<h1 class='title'>"+reteta.getName()+"</h1>");
 		html.append("<img width='"+100+"%' alt='"+reteta.getName()+"' src='https://qmasura-ruby.herokuapp.com/api/recipes/getPicture?id="+reteta.getId()+"' />");
 		html.append("<table><tbody><tr><td>");
 		html.append("</td><td>");
 		html.append("</td><td>");
 		html.append("</td></tr></tbody></table>");
-		html.append(listOfIngredientsHTML(reteta.getIngrediente()));
-		html.append(listOfMissingIngredientsHTML(reteta.getIngrediente_lipsa()));
+		html.append(listOfIngredientsHTML(reteta.getIngrediente(),reteta.getIngrediente_lipsa()));
+		/*html.append(listOfMissingIngredientsHTML(reteta.getIngrediente_lipsa()));*/
+		html.append("<h3>Preparare</h3>");
 		html.append("<span class='descriere'>");
 		html.append(reteta.getDescription());
 		html.append("</span>");
@@ -403,8 +454,8 @@ public class ClasaUtilitara {
 	{
 		StringBuilder html= new StringBuilder();
 		html.append(styleForReceipePage());
-		html.append(listOfIngredientsHTML(reteta.getIngrediente()));
-		html.append(listOfMissingIngredientsHTML(reteta.getIngredienteLipsa()));
+		html.append(listOfIngredientsHTML(reteta.getIngrediente(),reteta.getIngrediente_lipsa()));
+		//html.append(listOfMissingIngredientsHTML(reteta.getIngredienteLipsa()));
 		html.append(descriereRetetaHTML(reteta));
 		return html.toString();
 	}

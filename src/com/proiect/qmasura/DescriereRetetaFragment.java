@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,9 +42,11 @@ public class DescriereRetetaFragment extends Fragment {
 				 			reteta.display();
 				            fragmentView=inflater.inflate(R.layout.reteta_dataliu, container, false);
 				         	WebView continut= (WebView)fragmentView.findViewById(R.id.continut_reteta);
-							if(reteta!=null)
+				         	continut.setBackgroundColor(0x88ffffff);
+				         	if(reteta!=null)
 							{
 								String html=ClasaUtilitara.descriereReteta(reteta);
+								Log.i("Descrierer reteta","Reteta"+html);
 								continut.loadData(html, "text/html",  "utf-8");
 							}
 							
