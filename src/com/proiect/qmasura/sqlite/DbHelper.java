@@ -54,11 +54,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	private static final String INGREDIENTE_LOCAL_ID="_id";
-	private static final String INGREDIENTE_ID="ingredient_id";
-	private static final String INGREDIENTE_NAME="name";
 	private static final String INGREDIENTE_GENERAL_NAME="general_name";
 	private static final String INGREDIENTE_POZA="poza";
-	private static final String INGREDIENTE_CATEGORY="category_id";
 	
 	private static final String FRIGIDER_LOCAL_ID="_id";
 	private static final String FRIGIDER_ID="ingredient_id";
@@ -82,11 +79,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	private static final String createTableIngrediente="CREATE TABLE "+INGREDIENTE+" (" +
 			INGREDIENTE_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-			INGREDIENTE_ID+" INTEGER,"+
-			INGREDIENTE_NAME+" varchar2(100),"+
 			INGREDIENTE_GENERAL_NAME+" varchar2(100)," +
-			INGREDIENTE_POZA+" varchar2(255)," +
-			INGREDIENTE_CATEGORY+" integer );";
+			INGREDIENTE_POZA+" varchar2(255));";
 	
 	private static final String createTableFrigider="CREATE TABLE "+FRIGIDER+" (" +
 			FRIGIDER_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -194,7 +188,6 @@ public class DbHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		ContentValues values = new ContentValues();
-		values.put(INGREDIENTE_ID, ingr.getId());
 		values.put(INGREDIENTE_GENERAL_NAME, ingr.getGeneral_name());
 		values.put(INGREDIENTE_POZA, ingr.getPoza());
 		long local_id = db.insert(INGREDIENTE, null, values);
@@ -276,6 +269,8 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	public boolean insereazaIngredientInFrigider(Ingredient ingr)
 	{
+		Log.i("insereazaIngredientInFrigider","Inserare Ingredient :");
+		ingr.display();
 		boolean done=true;
 		SQLiteDatabase db = this.getReadableDatabase();
 		

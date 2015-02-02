@@ -249,12 +249,18 @@ public class ClasaUtilitara {
 			else
 				cantitate=0;
 			
+			if(json_ingredient.has("picture"))
+			{
+				picture=json_ingredient.getString("picture");
+			}
+			else
+				picture="";
+			
 			tmp.setId(id);
 			tmp.setGeneral_name(general_name);
 			tmp.setName(name);
 			tmp.setCantitate(cantitate);
-			tmp.setPoza(picture);
-			 
+			tmp.setPoza(picture);		 
 			 
 			 
 		 }

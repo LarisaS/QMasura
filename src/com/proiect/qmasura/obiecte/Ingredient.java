@@ -91,7 +91,7 @@ public class Ingredient implements Serializable {
 	}
 	public void display() {
 		// TODO Auto-generated method stub
-		Log.i("Ingredient","Ingredient "+id+" "+general_name+" "+cantitate+" "+um+" ("+um_id+")");
+		Log.i("Ingredient","Ingredient "+id+" "+general_name+" "+cantitate+" "+um+" ("+um_id+") poza:"+poza);
 	}
 	
 }
