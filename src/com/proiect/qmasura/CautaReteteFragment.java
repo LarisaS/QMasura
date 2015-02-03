@@ -1,5 +1,6 @@
 package com.proiect.qmasura;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -11,13 +12,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import com.proiect.qmasura.obiecte.Ingredient;
-import com.proiect.qmasura.obiecte.Reteta;
-import com.proiect.qmasura.obiecte.SummaryReteta;
-import com.proiect.qmasura.obiecte.UnitatiDeMasura;
-import com.proiect.qmasura.sqlite.DbHelper;
-import com.proiect.qmasura.utilitare.ClasaUtilitara;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -32,14 +26,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.GridView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.SummaryReteta;
+import com.proiect.qmasura.sqlite.DbHelper;
+import com.proiect.qmasura.utilitare.ClasaUtilitara;
 
 public class CautaReteteFragment  extends Fragment {
 	View fragmentView;
@@ -51,8 +49,7 @@ public class CautaReteteFragment  extends Fragment {
 	private Button cauta;
 	private Map<Integer,Ingredient> selectate;
 	
-	/*****dummy******/
-	ArrayList<Reteta> retete;
+	
 	
 	 @Override
 	    public void onCreate(Bundle savedInstanceState) {
@@ -68,32 +65,7 @@ public class CautaReteteFragment  extends Fragment {
 		 		DbHelper db_helper= new DbHelper(this.getActivity());
 		 		ingrediente=db_helper.ingredienteDinFrigider();
 			 	 db_helper.close();
-				String tomato = "http://www.foodproductiondaily.com/var/plain_site/storage/images/publications/food-beverage-nutrition/foodproductiondaily.com/innovations/packaging-made-from-tomato-waste/8593675-1-eng-GB/Packaging-made-from-tomato-waste.jpg";
-		        String onions="http://upload.wikimedia.org/wikipedia/commons/8/85/Red_onions.jpg";
-		        String eggs="http://www.writtenchinese.com/wp-content/uploads/2013/09/Eggs.jpg";
-		        String carrot="https://www.agric.wa.gov.au/sites/gateway/files/carrot-1.jpg";
-		        String cabbage="http://topfoodfacts.com/wp-content/uploads/2013/01/cabbage.jpg";
-				retete= new ArrayList<Reteta>();
 				
-				/*for(int i=0;i<10;i++)
-				{
-					Reteta r= new Reteta("Sugestie Reteta numarul " +(i+1));
-					if(i%4==0)
-					r.setPoza("https://c2.staticflickr.com/2/1317/1469874334_737335c623.jpg");
-					else
-						if(i%4==1)
-							r.setPoza("http://resiliencefitness.com/wp-content/uploads/2013/09/salad.jpg");
-						else
-							if(i%4==2)
-								r.setPoza("http://mixedgreensblog.com/wp-content/uploads/2010/04/green-goddess-soup.jpg");
-							else 
-								if(i%4==3)
-									r.setPoza("http://steamykitchen.com/wp-content/uploads/2010/03/garlic-herb-steak.jpg");
-				
-					retete.add(r);
-				
-				}*/
-		
 		         fragmentView=inflater.inflate(R.layout.cauta_retete, container, false);
 		         
 		         cauta=(Button)fragmentView.findViewById(R.id.cauta_retete_action);
@@ -118,12 +90,12 @@ public class CautaReteteFragment  extends Fragment {
 			        		rl.setBackgroundResource(R.drawable.selected_gradient);
 			        	}
 			        	
-			        	Iterator it = selectate.entrySet().iterator();
+			        	/*Iterator it = selectate.entrySet().iterator();
 			            while (it.hasNext()) {
 			                Map.Entry pairs = (Map.Entry)it.next();
 			                Ingredient ing=(Ingredient)pairs.getValue();
 			                ing.display();
-			            }
+			            }*/
 			        }
 		         });
 		         
@@ -208,7 +180,29 @@ public class CautaReteteFragment  extends Fragment {
 			Log.i("Cauta Retete", "do in background"); 
 			HttpClient httpclient = new DefaultHttpClient();
 			try {
-					HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/recipes/calculate");	 
+					StringBuilder url=new StringBuilder();
+					url.append("https://qmasura-ruby.herokuapp.com/api/recipes/calculate?");
+					
+					Iterator it = ingrediente.entrySet().iterator();
+		            while (it.hasNext()) {
+		            	url.append("frig%5B");
+		                Map.Entry pairs = (Map.Entry)it.next();
+		                Ingredient ing=(Ingredient)pairs.getValue();
+		                url.append(ing.getGeneral_name());
+		                url.append("%5D%5Bcantitate%5D=");
+		                url.append(ing.getCantitate());
+		                url.append("&");
+		                url.append("frig%5B");
+		                url.append(ing.getGeneral_name());
+		                url.append("%5D%5Bum_id%5D=");
+		                url.append(ing.getUm_id());
+		                if(it.hasNext())
+		                	url.append("&");
+		            }
+		            HttpGet httppost = new HttpGet(url.toString().replace(" ", "%20"));
+		            
+		            Log.i("TEST","CAUTA URL "+url.toString().replace(" ", "%20"));
+		            
 					HttpResponse rez = httpclient.execute(httppost);
 					String s= ClasaUtilitara.getStringFromJson(rez.getEntity());				
 					Log.i("update DB", "listare retete "+s);

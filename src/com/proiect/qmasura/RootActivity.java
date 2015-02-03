@@ -1,40 +1,17 @@
 package com.proiect.qmasura;
 
-import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
-import com.proiect.qmasura.obiecte.Ingredient;
-import com.proiect.qmasura.obiecte.UnitatiDeMasura;
-import com.proiect.qmasura.sqlite.DbHelper;
-import com.proiect.qmasura.utilitare.ClasaUtilitara;
-
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences.Editor;
-
-
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,14 +19,24 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.proiect.qmasura.obiecte.DetailedGeneralIngredient;
+import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.UnitatiDeMasura;
+import com.proiect.qmasura.sqlite.DbHelper;
+import com.proiect.qmasura.utilitare.ClasaUtilitara;
 
 
 public class RootActivity extends ActionBarActivity
@@ -138,7 +125,7 @@ public class RootActivity extends ActionBarActivity
 		HttpClient httpclient = new DefaultHttpClient();
 		try {
 			String ultima_updatare_um=db_helper.dataUpdateUnitatiMasura();
-			Log.i("update DB", "Ultima updatare:"+ultima_updatare_um); 
+			Log.i("update DB", "Ultima updatare UM:"+ultima_updatare_um); 
 			if(!ultima_updatare_um.isEmpty() && ultima_updatare_um.equals("0"))
 			{
 				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/unities/listAll");	 
@@ -162,6 +149,7 @@ public class RootActivity extends ActionBarActivity
 				ArrayList<UnitatiDeMasura> units= db_helper.unitatileDeMasura();
 				for(int i=0;i<units.size();i++)
 					units.get(i).display();
+				
 			}
 			
 			String ultima_updatare_frig=db_helper.dataUpdateFrigider();
@@ -176,7 +164,6 @@ public class RootActivity extends ActionBarActivity
 				ArrayList<Ingredient> ums= new ArrayList<Ingredient>();
 				for(int j=0;j<ing_array.length();j++)
 				{
-					
 					JSONObject unit_obj=ing_array.getJSONObject(j);
 					Ingredient um=ClasaUtilitara.getIngredientFromJSON(unit_obj);
 					ums.add(um);
@@ -188,8 +175,37 @@ public class RootActivity extends ActionBarActivity
 			}
 			else
 			{
-				Log.i("update DB", "unitati de masura");
+				Log.i("update DB", "Frigider");
 				ArrayList<Ingredient> ingredients= db_helper.ingredienteDinFrigider();
+				for(int i=0;i<ingredients.size();i++)
+				ingredients.get(i).display();
+			}
+			
+			String ultima_updatare_ingrediente=db_helper.dataUpdateIngredienteGenerale();
+			Log.i("ultima updatare frigider", "Ingrediente: ultima updatare "+ultima_updatare_ingrediente);
+			if(!ultima_updatare_ingrediente.isEmpty() && ultima_updatare_ingrediente.equals("0"))
+			{ 
+				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/frigiders/listAll");	 
+				HttpResponse rez = httpclient.execute(httppost);
+				String ras= ClasaUtilitara.getStringFromJson(rez.getEntity());				
+				Log.i("update DB", "listare ingrediente default "+ras);
+				JSONArray ing_array= new JSONArray(ras);
+				ArrayList<Ingredient> ums= new ArrayList<Ingredient>();
+				for(int j=0;j<ing_array.length();j++)
+				{
+					JSONObject unit_obj=ing_array.getJSONObject(j);
+					Ingredient um=ClasaUtilitara.getIngredientFromJSON(unit_obj);
+					ums.add(um);
+					um.display();
+					db_helper.insereazaIngredientInFrigider(um);
+				}
+				
+				db_helper.actualizeazaTimestampIngredienteGenerale();
+			}
+			else
+			{
+				Log.i("update DB", "Ingrediente generale");
+				ArrayList<DetailedGeneralIngredient> ingredients= db_helper.obtineIngredienteGenerale();
 				for(int i=0;i<ingredients.size();i++)
 				ingredients.get(i).display();
 			}

@@ -209,7 +209,6 @@ public class ClasaUtilitara {
 		   *"buc_quantity":150.0,
 		   *"picture":null
 		   */
-		 
 		 String picture="",general_name,um,name;
 		 int um_id,id;
 		 float cantitate=0;

@@ -1,27 +1,29 @@
 package com.proiect.qmasura.sqlite;
 
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import com.proiect.qmasura.obiecte.Ingredient;
-import com.proiect.qmasura.obiecte.Reteta;
-import com.proiect.qmasura.obiecte.UnitatiDeMasura;
+import org.apache.commons.lang.StringUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Environment;
 import android.util.Log;
+
+import com.proiect.qmasura.obiecte.DetailedGeneralIngredient;
+import com.proiect.qmasura.obiecte.GeneralIngredient;
+import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.obiecte.Reteta;
+import com.proiect.qmasura.obiecte.UnitatiDeMasura;
 
 
 public class DbHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME="qmasura.db";
-	private static final String INGREDIENTE="ingrediente";
+	private static final String INGREDIENTE_GENERALE="ingrediente";
 	private static final String FRIGIDER="frigider";
 	private static final String UNITATI="unitati";
 	private static final String RETETE="retete";
@@ -53,9 +55,10 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	
 	
-	private static final String INGREDIENTE_LOCAL_ID="_id";
-	private static final String INGREDIENTE_GENERAL_NAME="general_name";
-	private static final String INGREDIENTE_POZA="poza";
+	private static final String INGREDIENTE_GENERALE_LOCAL_ID="_id";
+	private static final String INGREDIENTE_GENERALE_GENERAL_NAME="general_name";
+	private static final String INGREDIENTE_GENERALE_POZA="poza";
+	private static final String INGREDIENTE_GENERALE_UMS="unities";
 	
 	private static final String FRIGIDER_LOCAL_ID="_id";
 	private static final String FRIGIDER_ID="ingredient_id";
@@ -77,10 +80,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final int SCHEMA_VERSION=1;
 
 	
-	private static final String createTableIngrediente="CREATE TABLE "+INGREDIENTE+" (" +
-			INGREDIENTE_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
-			INGREDIENTE_GENERAL_NAME+" varchar2(100)," +
-			INGREDIENTE_POZA+" varchar2(255));";
+	private static final String createTableIngrediente="CREATE TABLE "+INGREDIENTE_GENERALE+" (" +
+			INGREDIENTE_GENERALE_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
+			INGREDIENTE_GENERALE_GENERAL_NAME+" varchar2(100)," +
+			INGREDIENTE_GENERALE_POZA+" varchar2(255)," +
+			INGREDIENTE_GENERALE_UMS+" varchar2(255));";
 	
 	private static final String createTableFrigider="CREATE TABLE "+FRIGIDER+" (" +
 			FRIGIDER_LOCAL_ID+" INTEGER PRIMARY KEY AUTOINCREMENT,"+
@@ -182,15 +186,28 @@ public class DbHelper extends SQLiteOpenHelper {
 	    else return "";
 	}
 	
-	public boolean insereazaIngredient(Ingredient ingr)
+	public String dataUpdateIngredienteGenerale()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		 
+	    String selectQuery = "SELECT * FROM " + SETTINGS+" WHERE "+SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_ING+"'";
+	 
+	    Cursor c = db.rawQuery(selectQuery, null);
+	    if(c.moveToFirst())
+	    return c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
+	    else return "";
+	}
+	
+	public boolean insereazaIngredientGeneral(GeneralIngredient ingr)
 	{
 		boolean done=true;
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		ContentValues values = new ContentValues();
-		values.put(INGREDIENTE_GENERAL_NAME, ingr.getGeneral_name());
-		values.put(INGREDIENTE_POZA, ingr.getPoza());
-		long local_id = db.insert(INGREDIENTE, null, values);
+		values.put(INGREDIENTE_GENERALE_GENERAL_NAME, ingr.getGeneralName());
+		values.put(INGREDIENTE_GENERALE_POZA, ingr.getPicure());
+		values.put(INGREDIENTE_GENERALE_UMS, ingr.getUms());
+		long local_id = db.insert(INGREDIENTE_GENERALE, null, values);
 		
 		if(local_id>0)
 			done=true;
@@ -198,6 +215,32 @@ public class DbHelper extends SQLiteOpenHelper {
 			done=false;
 		
 		return done;
+	}
+	
+	public ArrayList<DetailedGeneralIngredient> obtineIngredienteGenerale()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ArrayList<DetailedGeneralIngredient> list= new ArrayList<DetailedGeneralIngredient>();
+		//long local_id = db.insert(FRIGIDER, null, values);
+		 String selectQuery = "SELECT * FROM " + INGREDIENTE_GENERALE;
+		 
+		 Cursor c = db.rawQuery(selectQuery, null);
+		 while(c.moveToNext())
+		 {
+			 DetailedGeneralIngredient i= new DetailedGeneralIngredient();
+			 String name= c.getString(c.getColumnIndex(INGREDIENTE_GENERALE_GENERAL_NAME));
+			 String poza= c.getString(c.getColumnIndex(INGREDIENTE_GENERALE_POZA));
+			 String ums= c.getString(c.getColumnIndex(INGREDIENTE_GENERALE_UMS));
+			 String[] ums_array=StringUtils.split(ums,',');
+			 ArrayList<UnitatiDeMasura> ums_list=unitatileDeMasura(ums_array);
+			 
+			 i.setGeneralName(name);
+			 i.setPicure(poza);
+			 i.setUms(ums_list);			 
+			 
+			 list.add(i);
+		 }
+		return list;
 	}
 	
 	
@@ -336,6 +379,16 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.update(SETTINGS, cv, SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_FRIGIDER+"'", null);
 	}
 	
+	public void actualizeazaTimestampIngredienteGenerale()
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ContentValues cv = new ContentValues();
+		Date date = new Date();
+		String modifiedDate= new SimpleDateFormat("yyyy-MM-dd").format(date);
+		cv.put(SETTINGS_VALUE,modifiedDate);
+		db.update(SETTINGS, cv, SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_ING+"'", null);
+	}
+	
 	public boolean populeazaUnitatiDeMasura(ArrayList<UnitatiDeMasura> ums)
 	{
 		SQLiteDatabase db = this.getReadableDatabase();
@@ -375,9 +428,28 @@ public class DbHelper extends SQLiteOpenHelper {
 			 um.setName(name);
 			 units.add(um);
 		 }
-		return units;		
-		
+		return units;			
 	}
+	
+	public ArrayList<UnitatiDeMasura> unitatileDeMasura(String[] ids)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		String selectQuery = "SELECT * FROM " + UNITATI+" WHERE "+UNITATI_ID+" IN("+StringUtils.join(ids,',')+")";		 
+		Cursor c = db.rawQuery(selectQuery, null);
+		ArrayList<UnitatiDeMasura> units= new ArrayList<UnitatiDeMasura>();
+		while(c.moveToNext())
+		{
+			 UnitatiDeMasura um= new UnitatiDeMasura();
+			 int id=  c.getInt(c.getColumnIndex(UNITATI_ID));
+			 String name= c.getString(c.getColumnIndex(UNITATI_NAME));
+			 um.setId(id);
+			 um.setName(name);
+			 units.add(um);
+		 }
+		return units;			
+	}
+	
+	
 	/********db handler opps************/
 	public void closeDB() {
 	        SQLiteDatabase db = this.getReadableDatabase();

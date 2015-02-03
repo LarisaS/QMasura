@@ -3,6 +3,7 @@ package com.proiect.qmasura;
 
 import java.util.ArrayList;
 
+import com.proiect.qmasura.obiecte.DetailedGeneralIngredient;
 import com.proiect.qmasura.obiecte.Ingredient;
 import com.proiect.qmasura.sqlite.DbHelper;
 
@@ -25,8 +26,8 @@ import android.widget.AdapterView.OnItemClickListener;
 public class FrigiderulMeuFragment extends Fragment {
 	View fragmentView;
 	private static final String ARG_SECTION_NUMBER = "section_number";
-	private ArrayList<Ingredient> ingrediente;
-	
+	private ArrayList<Ingredient> ingredienteDisponibile;
+	private ArrayList<DetailedGeneralIngredient> ingredienteGenerale;
 	 @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -36,19 +37,15 @@ public class FrigiderulMeuFragment extends Fragment {
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		        Bundle savedInstanceState) {
 		        // Inflate the layout for this fragment
-		 		ingrediente= new ArrayList<Ingredient>();
+		 		ingredienteDisponibile= new ArrayList<Ingredient>();
 		 		DbHelper db_helper= new DbHelper(this.getActivity());
-		 		ingrediente=db_helper.ingredienteDinFrigider();
+		 		ingredienteDisponibile=db_helper.ingredienteDinFrigider();
+		 		ingredienteGenerale= db_helper.obtineIngredienteGenerale();
 		 		db_helper.close();
-		 		  String tomato = "http://www.foodproductiondaily.com/var/plain_site/storage/images/publications/food-beverage-nutrition/foodproductiondaily.com/innovations/packaging-made-from-tomato-waste/8593675-1-eng-GB/Packaging-made-from-tomato-waste.jpg";
-		          String onions="http://upload.wikimedia.org/wikipedia/commons/8/85/Red_onions.jpg";
-		          String eggs="http://www.writtenchinese.com/wp-content/uploads/2013/09/Eggs.jpg";
-		          String carrot="https://www.agric.wa.gov.au/sites/gateway/files/carrot-1.jpg";
-		          String cabbage="http://topfoodfacts.com/wp-content/uploads/2013/01/cabbage.jpg";
 		 		
-		         fragmentView=inflater.inflate(R.layout.frigiderul_meu_view, container, false);
-		         GridView imagini= (GridView)fragmentView.findViewById(R.id.frigiderul_meu);
-					FrigiderulMeuGridAdaptor adaptor_grid= new FrigiderulMeuGridAdaptor(getActivity(),ingrediente);
+		        fragmentView=inflater.inflate(R.layout.frigiderul_meu_view, container, false);
+		        GridView imagini= (GridView)fragmentView.findViewById(R.id.frigiderul_meu);
+					FrigiderulMeuGridAdaptor adaptor_grid= new FrigiderulMeuGridAdaptor(getActivity(),ingredienteDisponibile);
 					imagini.setAdapter(adaptor_grid);
 					imagini.setOnItemClickListener(new OnItemClickListener() {
 				        public void onItemClick(AdapterView<?> parent, View v,
@@ -79,7 +76,7 @@ public class FrigiderulMeuFragment extends Fragment {
 	        	 final FragmentTransaction ft = getFragmentManager().beginTransaction(); 
 	        	 AdaugaIngredientFragment fragment= new AdaugaIngredientFragment();
 	        	 Bundle args= new Bundle();
-	        	 args.putSerializable("ingrediente", ingrediente);
+	        	 args.putSerializable("ingrediente", ingredienteGenerale);
 	        	 fragment.setArguments(args);
 	        	 ft.replace(R.id.container, fragment, "AdaugaIngredient"); 
 	        	 ft.addToBackStack("Adauga ingredient");

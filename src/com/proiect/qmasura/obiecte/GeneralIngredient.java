@@ -4,9 +4,17 @@ import android.util.Log;
 
 public class GeneralIngredient {
 
-	private String generalName,picure;
+	protected String generalName,picure,ums;
 	
 	public GeneralIngredient(){
+	}
+
+	public String getUms() {
+		return ums;
+	}
+
+	public void setUms(String ums) {
+		this.ums = ums;
 	}
 
 	public String getGeneralName() {
