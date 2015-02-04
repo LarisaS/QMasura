@@ -240,7 +240,7 @@ public class ClasaUtilitara {
 			else
 				cantitate=0;
 			
-			if(json_ingredient.has("picture"))
+			if(json_ingredient.has("picture") && !json_ingredient.isNull("picture"))
 			{
 				picture=json_ingredient.getString("picture");
 			}
@@ -274,9 +274,9 @@ public class ClasaUtilitara {
 		 tmp.setGeneralName(name);
 		 try
 		 {
-			 if(rest_json_ingredient.has("picture"))
+			 if(rest_json_ingredient.has("picture") && !rest_json_ingredient.isNull("picture"))
 				 picture=rest_json_ingredient.getString("picture");
-			 else return null;
+			 else picture="";
 			 
 			 if(rest_json_ingredient.has("um_ids")){
 				 ArrayList<String> um_ids= new ArrayList<String>();
@@ -343,7 +343,10 @@ public class ClasaUtilitara {
 		 try
 		 {
 			 id=json_ingredient.getInt("id");
-			 picture=json_ingredient.getString("picture");
+			 if(json_ingredient.has("picture") && !json_ingredient.isNull("picture"))
+				 picture=json_ingredient.getString("picture");
+			 else
+				 picture="";
 			 general_name=json_ingredient.getString("general_name");
 		 }
 		 catch(Exception e)

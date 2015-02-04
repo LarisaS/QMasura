@@ -218,7 +218,8 @@ public class RootActivity extends ActionBarActivity
 		}
 		catch(Exception e)
 		{
-				Log.i("EXCEPTIE", e.getLocalizedMessage());
+			e.printStackTrace();
+				//Log.i("EXCEPTIE", e.getLocalizedMessage());
 		}
 		finally{
 			db_helper.close();
@@ -257,14 +258,14 @@ public class RootActivity extends ActionBarActivity
            break;  
         }
         case 2:
-        	{
-        		 Bundle args = new Bundle();
-                 args.putInt("section_number", number);
-                 FrigiderulMeuFragment fragment=new FrigiderulMeuFragment() ;
-                 fragment.setArguments(args);
-        		 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
-                 break;
-        	}
+    	{
+    		 Bundle args = new Bundle();
+             args.putInt("section_number", number);
+             FrigiderulMeuFragment fragment=new FrigiderulMeuFragment() ;
+             fragment.setArguments(args);
+    		 fragmentManager.beginTransaction().replace(R.id.container, fragment).commit();
+             break;
+    	}
         case 3:
         	{
         		Bundle args = new Bundle();

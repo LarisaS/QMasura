@@ -33,7 +33,14 @@
             android:singleLine="true"
             android:hint="Cantitate"
             android:gravity="center"/>
-        "
+        <Spinner android:id="@+id/unitate_ingredient"
+           android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:singleLine="true"
+            android:hint="Cantitate"
+            android:gravity="center"/>
         <Button android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Adauga Ingredientul"
