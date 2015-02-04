@@ -2,11 +2,8 @@ package com.proiect.qmasura;
 
 import java.util.ArrayList;
 
-import com.proiect.qmasura.obiecte.Ingredient;
-
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,19 +12,22 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> implements Filterable {
+import com.proiect.qmasura.obiecte.DetailedGeneralIngredient;
+import com.proiect.qmasura.obiecte.Ingredient;
 
-	ArrayList<Ingredient> values;
-	ArrayList<Ingredient> originalValues;
+public class AutocompleteIngredientAdapter extends ArrayAdapter<DetailedGeneralIngredient> implements Filterable {
+
+	ArrayList<DetailedGeneralIngredient> values;
+	ArrayList<DetailedGeneralIngredient> originalValues;
 	Filter myFilter;
 	Context context;
 	
-	public AutocompleteIngredientAdapter(Context context, int resource,ArrayList<Ingredient> values) {
+	public AutocompleteIngredientAdapter(Context context, int resource,ArrayList<DetailedGeneralIngredient> values) {
 		super(context,R.layout.autocomplete_ingredient_layout, values);
 		// TODO Auto-generated constructor stub
 		this.context=context;
 		this.values= values;//new ArrayList<Utilizator>(values);
-		this.originalValues= new ArrayList<Ingredient>(values);
+		this.originalValues= new ArrayList<DetailedGeneralIngredient>(values);
 		
 	}
 	
@@ -42,10 +42,10 @@ public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> impl
 	            FilterResults filterResults = new FilterResults();
 	            if(constraint != null && constraint.length()>0) 
 	            {
-	            	ArrayList<Ingredient> filtrate= new ArrayList<Ingredient>();
+	            	ArrayList<DetailedGeneralIngredient> filtrate= new ArrayList<DetailedGeneralIngredient>();
 	            	
 	            	for(int i=0;i<originalValues.size();i++)
-	            		if(originalValues.get(i).getGeneral_name().contains(constraint))
+	            		if(originalValues.get(i).getGeneralName().contains(constraint))
 	            			filtrate.add(originalValues.get(i));
 	            	
 	                filterResults.values = filtrate;
@@ -62,7 +62,7 @@ public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> impl
 	        @Override
 	        protected void publishResults(CharSequence contraint, FilterResults results) 
 	        {
-	        	values=(ArrayList<Ingredient>) results.values;
+	        	values=(ArrayList<DetailedGeneralIngredient>) results.values;
 	            if(results != null && results.count > 0) 
 	            {
 	                notifyDataSetChanged();
@@ -103,13 +103,13 @@ public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> impl
 	      }
 
 	      // object item based on the position
-	      Ingredient objectItem = this.getItem(position);
+	      DetailedGeneralIngredient objectItem = this.getItem(position);
 
 	      // assign values if the object is not null
 	      if(objectItem != null) {
 	          // get the TextView from the ViewHolder and then set the text (item name) and tag (item ID) values
 	         
-	    	 viewHolder.ingredient.setText(objectItem.getGeneral_name());
+	    	 viewHolder.ingredient.setText(objectItem.getGeneralName());
 	      }
 
 	      return convertView;
@@ -121,14 +121,14 @@ public class AutocompleteIngredientAdapter extends ArrayAdapter<Ingredient> impl
 	    }
 
 	    @Override
-	    public Ingredient getItem(int position) {
+	    public DetailedGeneralIngredient getItem(int position) {
 	        return values.get(position);
 	    }
 
 	    
 	    public String getItemUsername(int position)
 	    {
-	    	return values.get(position).getGeneral_name();
+	    	return values.get(position).getGeneralName();
 	    }
 	    
 	 

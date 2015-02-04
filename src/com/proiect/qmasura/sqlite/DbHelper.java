@@ -76,7 +76,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String RETETE_PERS="nr_persoane";
 	private static final String RETETE_TIME="time";
 	private static final String RETETE_POZA="poza";
-	
+	 
 	private static final int SCHEMA_VERSION=1;
 
 	

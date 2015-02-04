@@ -2,22 +2,24 @@ package com.proiect.qmasura;
 
 import java.util.ArrayList;
 
-import com.proiect.qmasura.obiecte.Ingredient;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.proiect.qmasura.obiecte.DetailedGeneralIngredient;
+import com.proiect.qmasura.obiecte.Ingredient;
 
 public class AdaugaIngredientFragment extends Fragment {
 	private View myFragmentView;
@@ -27,20 +29,21 @@ public class AdaugaIngredientFragment extends Fragment {
     private EditText cantitate;
     private Button adauga; 
 	private AutocompleteIngredientAdapter adapter;
+	private DetailedGeneralIngredient selected_ingredient;
 	 public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		        Bundle savedInstanceState) {
 		        // Inflate the layout for this fragment
 		 
-		 		ArrayList<Ingredient> ingrediente= null;
+		 		ArrayList<DetailedGeneralIngredient> ingrediente= null;
 		 		if(!this.getArguments().isEmpty() && this.getArguments().containsKey("ingrediente"))
-		 			ingrediente=(ArrayList<Ingredient>) this.getArguments().getSerializable("ingrediente");
+		 			ingrediente=(ArrayList<DetailedGeneralIngredient>) this.getArguments().getSerializable("ingrediente");
 		 		else
-		 			ingrediente= new ArrayList<Ingredient>();
+		 			ingrediente= new ArrayList<DetailedGeneralIngredient>();
 		 		
 		 		Toast.makeText(getActivity(), "Ingrediente disponibile "+ingrediente.size(), Toast.LENGTH_SHORT).show();
 		 		
 		 		myFragmentView=inflater.inflate(R.layout.adauga_ingredient_layout, container, false);
-		       AutoCompleteTextView ingredient= (AutoCompleteTextView) myFragmentView.findViewById(R.id.ingredient_selectat);
+		       ingredient = (AutoCompleteTextView) myFragmentView.findViewById(R.id.ingredient_selectat);
 		       EditText cantitate=(EditText) myFragmentView.findViewById(R.id.cantitate_ingredient);
 		       Button adauga= (Button) myFragmentView.findViewById(R.id.adauga_ingredientul_selectat);
 		       
@@ -60,7 +63,10 @@ public class AdaugaIngredientFragment extends Fragment {
 						// TODO Auto-generated method stub			
 						InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
 						imm.hideSoftInputFromWindow(view.getWindowToken(), 0);	
-						
+						DetailedGeneralIngredient selected=(DetailedGeneralIngredient)parent.getItemAtPosition(position);
+						selected_ingredient=selected;
+						selected.display();
+						ingredient.setText(selected.getGeneralName());
 					}
 		        });
 				

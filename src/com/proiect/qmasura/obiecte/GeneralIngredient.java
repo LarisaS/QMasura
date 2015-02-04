@@ -35,7 +35,7 @@ public class GeneralIngredient {
 	
 	
 	public void display(){
-		Log.i("GeneralIngredient", "Ingredint nume_general="+generalName+" picture="+picure);
+		Log.i("GeneralIngredient", this.toString()+" Ingredint nume_general="+generalName+" picture="+picure+" ums ="+ums);
 	}
 	
 }

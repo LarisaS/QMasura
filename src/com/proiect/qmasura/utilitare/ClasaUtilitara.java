@@ -8,24 +8,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import android.util.Log;
-
 import com.proiect.qmasura.R;
+import com.proiect.qmasura.obiecte.GeneralIngredient;
 import com.proiect.qmasura.obiecte.Ingredient;
 import com.proiect.qmasura.obiecte.IngredientLipsa;
 import com.proiect.qmasura.obiecte.Reteta;
@@ -272,6 +264,44 @@ public class ClasaUtilitara {
 		 return tmp;
 		 
 	 }
+	
+	
+	
+	public static GeneralIngredient geGeneralIngredientFromJSON(String name,JSONObject rest_json_ingredient)
+	 {
+		 String picture="",general_name,ums;
+		 GeneralIngredient tmp= new GeneralIngredient();
+		 tmp.setGeneralName(name);
+		 try
+		 {
+			 if(rest_json_ingredient.has("picture"))
+				 picture=rest_json_ingredient.getString("picture");
+			 else return null;
+			 
+			 if(rest_json_ingredient.has("um_ids")){
+				 ArrayList<String> um_ids= new ArrayList<String>();
+				 JSONArray ids= rest_json_ingredient.getJSONArray("um_ids");
+				 for(int i=0;i<ids.length();i++)
+					 um_ids.add(ids.getString(i));
+				 ums=StringUtils.join(um_ids.toArray(),',');
+			 }
+			 else return null;
+			 
+			 tmp.setPicure(picture);
+			 tmp.setUms(ums);
+			
+		 }
+		 catch(Exception e)
+		 {
+			 return null;
+		 }
+		 
+		 
+		 return tmp;
+		 
+	 }
+	
+	
 	
 	public static IngredientLipsa getIngredientLipsaFromJSON(JSONObject json_ingredient)
 	 {

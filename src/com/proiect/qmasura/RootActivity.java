@@ -1,6 +1,7 @@
 package com.proiect.qmasura;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -33,6 +34,7 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.proiect.qmasura.obiecte.DetailedGeneralIngredient;
+import com.proiect.qmasura.obiecte.GeneralIngredient;
 import com.proiect.qmasura.obiecte.Ingredient;
 import com.proiect.qmasura.obiecte.UnitatiDeMasura;
 import com.proiect.qmasura.sqlite.DbHelper;
@@ -182,22 +184,26 @@ public class RootActivity extends ActionBarActivity
 			}
 			
 			String ultima_updatare_ingrediente=db_helper.dataUpdateIngredienteGenerale();
-			Log.i("ultima updatare frigider", "Ingrediente: ultima updatare "+ultima_updatare_ingrediente);
+			Log.i("ultima updatare ingrediente", "Ingrediente: ultima updatare "+ultima_updatare_ingrediente);
 			if(!ultima_updatare_ingrediente.isEmpty() && ultima_updatare_ingrediente.equals("0"))
 			{ 
-				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/frigiders/listAll");	 
+				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/ingredients/generalNamesWithUms");	 
 				HttpResponse rez = httpclient.execute(httppost);
 				String ras= ClasaUtilitara.getStringFromJson(rez.getEntity());				
-				Log.i("update DB", "listare ingrediente default "+ras);
-				JSONArray ing_array= new JSONArray(ras);
-				ArrayList<Ingredient> ums= new ArrayList<Ingredient>();
-				for(int j=0;j<ing_array.length();j++)
-				{
-					JSONObject unit_obj=ing_array.getJSONObject(j);
-					Ingredient um=ClasaUtilitara.getIngredientFromJSON(unit_obj);
-					ums.add(um);
-					um.display();
-					db_helper.insereazaIngredientInFrigider(um);
+				//Log.i("update DB", "listare ingrediente default "+ras);
+				
+				JSONObject ing_obj= new JSONObject(ras);
+				
+				Iterator<String> iter=ing_obj.keys();
+				
+				while(iter.hasNext()){
+					
+					String key= iter.next();
+					
+					JSONObject rest_of_ingr= ing_obj.getJSONObject(key);
+					GeneralIngredient ingr=ClasaUtilitara.geGeneralIngredientFromJSON(key,rest_of_ingr);
+					ingr.display();
+					db_helper.insereazaIngredientGeneral(ingr);
 				}
 				
 				db_helper.actualizeazaTimestampIngredienteGenerale();
