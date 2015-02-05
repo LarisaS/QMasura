@@ -48,6 +48,7 @@ public class CautaReteteFragment  extends Fragment {
 	private TextView label1,label2,label3;
 	private Button cauta;
 	private Map<Integer,Ingredient> selectate;
+	private Map<Integer,Ingredient> all_ingredients;
 	
 	
 	
@@ -62,6 +63,13 @@ public class CautaReteteFragment  extends Fragment {
 		        // Inflate the layout for this fragment
 		 		ingrediente= new ArrayList<Ingredient>();
 		 		selectate= new HashMap<Integer,Ingredient>();
+		 		all_ingredients= new HashMap<Integer,Ingredient>();
+		 		
+		 		for(int i=0;i<ingrediente.size(); i++){
+		 			all_ingredients.put(i,ingrediente.get(i));
+		 		}
+		 		
+		 		
 		 		DbHelper db_helper= new DbHelper(this.getActivity());
 		 		ingrediente=db_helper.ingredienteDinFrigider();
 			 	 db_helper.close();
@@ -108,7 +116,11 @@ public class CautaReteteFragment  extends Fragment {
 					@Override
 					public void onClick(View v) {
 						// TODO Auto-generated method stub
-						SearchReceipes cauta_async= new SearchReceipes(getActivity(),selectate);
+						SearchReceipes cauta_async;
+						if(selectate.isEmpty())
+							cauta_async= new SearchReceipes(getActivity(),all_ingredients);
+						else
+							cauta_async= new SearchReceipes(getActivity(),selectate);
 						cauta_async.execute();
 					}});
 		         

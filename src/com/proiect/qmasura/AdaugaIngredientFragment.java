@@ -3,6 +3,7 @@ package com.proiect.qmasura;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -38,13 +39,16 @@ public class AdaugaIngredientFragment extends Fragment {
 	private UnitatiMasuraSpinnerAdapter adapterSpinner;
 	private ArrayList<UnitatiDeMasura> unitati_values;
 	private Ingredient new_ingredient;
-	DbHelper db_helper= new DbHelper(getActivity());
+	DbHelper db_helper;
+	
 	
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		        Bundle savedInstanceState) {
 		        // Inflate the layout for this fragment
 		 
 		 		ArrayList<DetailedGeneralIngredient> ingrediente= null;
+		 		
+		 		db_helper= new DbHelper(getActivity());
 		 		
 		 		new_ingredient= new Ingredient();
 		 		
@@ -56,19 +60,19 @@ public class AdaugaIngredientFragment extends Fragment {
 		 		Toast.makeText(getActivity(), "Ingrediente disponibile "+ingrediente.size(), Toast.LENGTH_SHORT).show();
 		 		
 		 	
-		 		myFragmentView=inflater.inflate(R.layout.adauga_ingredient_layout, container, false);
+		 	   myFragmentView=inflater.inflate(R.layout.adauga_ingredient_layout, container, false);
 		       ingredient = (AutoCompleteTextView) myFragmentView.findViewById(R.id.ingredient_selectat);
-		       EditText cantitate=(EditText) myFragmentView.findViewById(R.id.cantitate_ingredient);
+		      
+		       cantitate=(EditText) myFragmentView.findViewById(R.id.cantitate_ingredient);
+		       cantitate.setRawInputType(Configuration.KEYBOARD_12KEY);
+		       
 		       Button adauga= (Button) myFragmentView.findViewById(R.id.adauga_ingredientul_selectat);
 		       adauga.setOnClickListener(new OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					new_ingredient.display();
-					db_helper.insereazaIngredientInFrigider(new_ingredient);
-					db_helper.close();
-					getActivity().finish();
+					insereazaIngredient();
 				}
 			});
 		       Typeface tf = Typeface.createFromAsset(getActivity().getAssets(),"fonts/Sunshine.ttf");
@@ -130,5 +134,28 @@ public class AdaugaIngredientFragment extends Fragment {
 		 		
 		 		return myFragmentView;
 		    }
+	private void closeFragment(){
+		db_helper.close();
+		getFragmentManager().popBackStack();
+	}
 	
+	private void insereazaIngredient(){
+		
+		if(cantitate.getText().toString().isEmpty())
+			Toast.makeText(getActivity(), "Adaugati o cantitate", Toast.LENGTH_SHORT).show();
+		else{
+			try{
+				float cantit= Float.parseFloat(cantitate.getText().toString());
+				new_ingredient.setCantitate(cantit);
+				new_ingredient.display();
+				
+				db_helper.insereazaIngredientInFrigider(new_ingredient);
+				closeFragment();
+			} catch (NumberFormatException e){
+				Toast.makeText(getActivity(), "Cantitatea introdusa nu este corecta", Toast.LENGTH_SHORT).show();
+			}
+		}
+		
+		
+	}
 }

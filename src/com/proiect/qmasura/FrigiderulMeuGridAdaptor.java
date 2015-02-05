@@ -1,32 +1,25 @@
 package com.proiect.qmasura;
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.proiect.qmasura.obiecte.Ingredient;
 
 import android.annotation.SuppressLint;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.graphics.Typeface;
-import android.media.ExifInterface;
-import android.os.Environment;
-import android.util.Log;
 import android.util.LruCache;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.proiect.qmasura.obiecte.Ingredient;
+import com.proiect.qmasura.sqlite.DbHelper;
 
 
 public class FrigiderulMeuGridAdaptor extends BaseAdapter {
@@ -90,7 +83,17 @@ public class FrigiderulMeuGridAdaptor extends BaseAdapter {
 				@Override
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
-					Toast.makeText(context, ((Integer)v.getTag())+"", Toast.LENGTH_SHORT).show();
+					Ingredient ingr= ingrediente.get((Integer)v.getTag());
+					
+					DbHelper helper= new DbHelper(context);
+					if(helper.stergeIngredient(ingr)){
+						ingrediente.remove(v.getTag());
+						notifyDataSetChanged();
+						Toast.makeText(context,"Ingredientul a fost sters", Toast.LENGTH_SHORT).show();
+					}else{
+						Toast.makeText(context,"Ingredientul nu a putut fi sters", Toast.LENGTH_SHORT).show();
+					}
+					helper.close();
 				}
 	        	  
 	          }); 

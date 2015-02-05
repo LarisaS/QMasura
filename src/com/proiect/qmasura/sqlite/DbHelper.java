@@ -169,9 +169,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	    String selectQuery = "SELECT * FROM " + SETTINGS+" WHERE "+SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_UM+"'";
 	 
 	    Cursor c = db.rawQuery(selectQuery, null);
+	    String to_return="";
 	    if(c.moveToFirst())
-	    return c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
-	    else return "";
+	    to_return=c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
+	    c.close();
+	    return to_return;
 	}
 	
 	public String dataUpdateFrigider()
@@ -181,9 +183,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	    String selectQuery = "SELECT * FROM " + SETTINGS+" WHERE "+SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_FRIGIDER+"'";
 	 
 	    Cursor c = db.rawQuery(selectQuery, null);
+	    String to_return="";
 	    if(c.moveToFirst())
-	    return c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
-	    else return "";
+	    	to_return=c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
+	   c.close();
+	    return to_return;
 	}
 	
 	public String dataUpdateIngredienteGenerale()
@@ -193,9 +197,11 @@ public class DbHelper extends SQLiteOpenHelper {
 	    String selectQuery = "SELECT * FROM " + SETTINGS+" WHERE "+SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_ING+"'";
 	 
 	    Cursor c = db.rawQuery(selectQuery, null);
+	    String to_return="";
 	    if(c.moveToFirst())
-	    return c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
-	    else return "";
+	    to_return= c.getString(c.getColumnIndex(SETTINGS_VALUE)).toString();
+	    c.close();
+	    return to_return;
 	}
 	
 	public boolean insereazaIngredientGeneral(GeneralIngredient ingr)
@@ -240,6 +246,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			 
 			 list.add(i);
 		 }
+		 c.close();
 		return list;
 	}
 	
@@ -341,7 +348,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		SQLiteDatabase db = this.getReadableDatabase();
 		
 		//long local_id = db.insert(FRIGIDER, null, values);
-		 String selectQuery = "SELECT * FROM " + FRIGIDER;
+		 String selectQuery = "SELECT * FROM " + FRIGIDER+" WHERE "+FRIGIDER_SHOW+"=1";
 		 
 		 Cursor c = db.rawQuery(selectQuery, null);
 		 while(c.moveToNext())
@@ -356,7 +363,22 @@ public class DbHelper extends SQLiteOpenHelper {
 			 
 			 ingrediente.add(i);
 		 }
+		 c.close();
 		 return ingrediente;
+	}
+	
+	
+	public boolean stergeIngredient(Ingredient ingredient)
+	{
+		Log.i("Stergere","Stergem Ingredientul");
+		ingredient.display();
+		
+		SQLiteDatabase db = this.getReadableDatabase();
+		ContentValues cv = new ContentValues();
+		
+		cv.put(FRIGIDER_SHOW,0);
+		long rows=db.update(FRIGIDER, cv, FRIGIDER_LOCAL_ID+" = "+ingredient.getId()+"", null);
+		return (rows>0);
 	}
 	
 	public void actualizeazaTimestampUnitati()
@@ -428,6 +450,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			 um.setName(name);
 			 units.add(um);
 		 }
+		c.close();
 		return units;			
 	}
 	
@@ -446,6 +469,7 @@ public class DbHelper extends SQLiteOpenHelper {
 			 um.setName(name);
 			 units.add(um);
 		 }
+		c.close();
 		return units;			
 	}
 	

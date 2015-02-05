@@ -124,6 +124,9 @@ public class RootActivity extends ActionBarActivity
 		Log.i("AAAAAAAAAAAAA","on create -aaa");
 		Log.i("update DB", "do in background"); 
 		DbHelper db_helper= new DbHelper(context);
+		
+		boolean ingredients_were_updated=false;
+		
 		HttpClient httpclient = new DefaultHttpClient();
 		try {
 			String ultima_updatare_um=db_helper.dataUpdateUnitatiMasura();
@@ -145,7 +148,7 @@ public class RootActivity extends ActionBarActivity
 				db_helper.populeazaUnitatiDeMasura(ums);
 				db_helper.actualizeazaTimestampUnitati();
 			}
-			else
+			/*else
 			{
 				Log.i("update DB", "unitati de masura");
 				ArrayList<UnitatiDeMasura> units= db_helper.unitatileDeMasura();
@@ -153,11 +156,13 @@ public class RootActivity extends ActionBarActivity
 					units.get(i).display();
 				
 			}
+			*/
 			
 			String ultima_updatare_frig=db_helper.dataUpdateFrigider();
 			Log.i("ultima updatare frigider", "Frigifer: ultima updatare "+ultima_updatare_frig);
 			if(!ultima_updatare_frig.isEmpty() && ultima_updatare_frig.equals("0"))
-			{ 
+			{
+				ingredients_were_updated=true;
 				HttpGet httppost = new HttpGet("https://qmasura-ruby.herokuapp.com/api/frigiders/listAll");	 
 				HttpResponse rez = httpclient.execute(httppost);
 				String ras= ClasaUtilitara.getStringFromJson(rez.getEntity());				
@@ -175,14 +180,14 @@ public class RootActivity extends ActionBarActivity
 				
 				db_helper.actualizeazaTimestampFrigider();
 			}
-			else
+			/*else
 			{
 				Log.i("update DB", "Frigider");
 				ArrayList<Ingredient> ingredients= db_helper.ingredienteDinFrigider();
 				for(int i=0;i<ingredients.size();i++)
 				ingredients.get(i).display();
 			}
-			
+			*/
 			String ultima_updatare_ingrediente=db_helper.dataUpdateIngredienteGenerale();
 			Log.i("ultima updatare ingrediente", "Ingrediente: ultima updatare "+ultima_updatare_ingrediente);
 			if(!ultima_updatare_ingrediente.isEmpty() && ultima_updatare_ingrediente.equals("0"))
@@ -208,12 +213,20 @@ public class RootActivity extends ActionBarActivity
 				
 				db_helper.actualizeazaTimestampIngredienteGenerale();
 			}
-			else
+			/*else
 			{
 				Log.i("update DB", "Ingrediente generale");
 				ArrayList<DetailedGeneralIngredient> ingredients= db_helper.obtineIngredienteGenerale();
 				for(int i=0;i<ingredients.size();i++)
 				ingredients.get(i).display();
+			}*/
+			
+			if(ingredients_were_updated){
+				Bundle args = new Bundle();
+		           args.putInt("section_number", 1);
+		           CautaReteteFragment fragment= new CautaReteteFragment();
+		           fragment.setArguments(args);
+		           getSupportFragmentManager().beginTransaction().replace(R.id.container, fragment ).commit();
 			}
 		}
 		catch(Exception e)
