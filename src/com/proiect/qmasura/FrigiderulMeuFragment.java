@@ -28,6 +28,8 @@ public class FrigiderulMeuFragment extends Fragment {
 	private static final String ARG_SECTION_NUMBER = "section_number";
 	private ArrayList<Ingredient> ingredienteDisponibile;
 	private ArrayList<DetailedGeneralIngredient> ingredienteGenerale;
+	FrigiderulMeuGridAdaptor adaptor_grid;
+	GridView imagini;
 	 @Override
 	    public void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -44,8 +46,8 @@ public class FrigiderulMeuFragment extends Fragment {
 		 		db_helper.close();
 		 		
 		        fragmentView=inflater.inflate(R.layout.frigiderul_meu_view, container, false);
-		        GridView imagini= (GridView)fragmentView.findViewById(R.id.frigiderul_meu);
-					FrigiderulMeuGridAdaptor adaptor_grid= new FrigiderulMeuGridAdaptor(getActivity(),ingredienteDisponibile);
+		         imagini= (GridView)fragmentView.findViewById(R.id.frigiderul_meu);
+					 adaptor_grid= new FrigiderulMeuGridAdaptor(getActivity(),ingredienteDisponibile,this);
 					imagini.setAdapter(adaptor_grid);
 					imagini.setOnItemClickListener(new OnItemClickListener() {
 				        public void onItemClick(AdapterView<?> parent, View v,
@@ -95,6 +97,15 @@ public class FrigiderulMeuFragment extends Fragment {
          ((RootActivity) activity).onSectionAttached(
                  getArguments().getInt(ARG_SECTION_NUMBER));
      }
+	 
+	 public void refresh(){
+		 adaptor_grid.notifyDataSetChanged();
+		 imagini.invalidateViews();
+	 }
+	 
+	 public void removeIngr(int pos){
+		 ingredienteDisponibile.remove(pos);
+	 }
 	 
 }
 

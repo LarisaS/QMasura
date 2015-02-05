@@ -76,6 +76,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	private static final String RETETE_PERS="nr_persoane";
 	private static final String RETETE_TIME="time";
 	private static final String RETETE_POZA="poza";
+	private static final String RETETE_INGREDIENTE="ingrediente";
 	 
 	private static final int SCHEMA_VERSION=1;
 
@@ -121,7 +122,8 @@ public class DbHelper extends SQLiteOpenHelper {
 			RETETE_TIME+" varchar2(100)," +
 			RETETE_PERS+" varchar2(100)," +
 			RETETE_POZA+" varchar2(255)," +
-			RETETE_DIF+" varchr2(100) )";
+			RETETE_DIF+" varchr2(100)," +
+			RETETE_INGREDIENTE+	" text )";
 	
 	
 	public DbHelper(Context context) {

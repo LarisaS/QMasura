@@ -89,6 +89,10 @@ public class Ingredient implements Serializable {
 	{
 		this.cantitate=cantit;
 	}
+	
+	public String getDescrierePentruReteta(){
+		return this.name+" "+getCantitateCuUnitati();
+	}
 	public void display() {
 		// TODO Auto-generated method stub
 		Log.i("Ingredient","Ingredient "+id+" "+general_name+" "+cantitate+" "+um+" ("+um_id+") poza:"+poza);

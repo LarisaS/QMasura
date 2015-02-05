@@ -26,11 +26,12 @@ public class FrigiderulMeuGridAdaptor extends BaseAdapter {
 
 	private Context context;
 	private ArrayList<Ingredient> ingrediente;
-	
-	public FrigiderulMeuGridAdaptor(Context context, ArrayList<Ingredient> values)
+	FrigiderulMeuFragment inst;
+	public FrigiderulMeuGridAdaptor(Context context, ArrayList<Ingredient> values,FrigiderulMeuFragment inst)
 	{
 		this.context=context;
 		this.ingrediente=values;
+		this.inst=inst;
 		//Toast.makeText(context, ""+poze.size(), Toast.LENGTH_SHORT).show();
 		 final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 		 final int cacheSize = maxMemory / 8;
@@ -87,8 +88,8 @@ public class FrigiderulMeuGridAdaptor extends BaseAdapter {
 					
 					DbHelper helper= new DbHelper(context);
 					if(helper.stergeIngredient(ingr)){
-						ingrediente.remove(v.getTag());
-						notifyDataSetChanged();
+						inst.removeIngr((Integer)v.getTag());
+						inst.refresh();
 						Toast.makeText(context,"Ingredientul a fost sters", Toast.LENGTH_SHORT).show();
 					}else{
 						Toast.makeText(context,"Ingredientul nu a putut fi sters", Toast.LENGTH_SHORT).show();
