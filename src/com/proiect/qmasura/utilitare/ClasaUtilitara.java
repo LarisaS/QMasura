@@ -201,7 +201,7 @@ public class ClasaUtilitara {
 		   *"buc_quantity":150.0,
 		   *"picture":null
 		   */
-		 String picture="",general_name,um,name;
+		 String picture="",general_name,um="",name;
 		 int um_id,id;
 		 float cantitate=0;
 		 Ingredient tmp= new Ingredient();
@@ -233,12 +233,22 @@ public class ClasaUtilitara {
 			 }
 			 else
 				 name="";
-			if(json_ingredient.has("cantitate"))
+			if(json_ingredient.has("recipe_quantity"))
 			{
-				cantitate=(float)json_ingredient.getDouble("cantitate");
+				cantitate=(float)json_ingredient.getDouble("recipe_quantity");
 			}
 			else
 				cantitate=0;
+			
+			if(json_ingredient.has("rec_unity_name") )
+			{
+				um=json_ingredient.getString("rec_unity_name");
+				if(um==null)
+					um="";
+			}
+			else
+				
+			
 			
 			if(json_ingredient.has("picture") && !json_ingredient.isNull("picture"))
 			{
@@ -251,7 +261,8 @@ public class ClasaUtilitara {
 			tmp.setGeneral_name(general_name);
 			tmp.setName(name);
 			tmp.setCantitate(cantitate);
-			tmp.setPoza(picture);		 
+			tmp.setPoza(picture);	
+			tmp.setUm(um);
 			 
 			 
 		 }
@@ -437,6 +448,13 @@ public class ClasaUtilitara {
 						html.append("<li>");
 					html.append(ingrediente.get(i).getGeneral_name());
 					html.append("  "+ingrediente.get(i).getCantitateCuUnitati());
+					if(lipsa_map.containsKey(ingrediente.get(i).getId()))
+					{
+						html.append("(");
+						html.append(lipsa_map.get(ingrediente.get(i).getId()).getCantitate());
+						html.append(")");
+					}
+					
 					html.append("</li>");
 				}
 			}

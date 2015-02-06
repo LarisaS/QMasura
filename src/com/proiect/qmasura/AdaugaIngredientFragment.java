@@ -122,9 +122,15 @@ public class AdaugaIngredientFragment extends Fragment {
 						selected_ingredient=selected;
 						selected.display();
 						ingredient.setText(selected.getGeneralName());
+						
 						adapterSpinner.clear();
 						adapterSpinner.addAll(selected_ingredient.getUmsList());
 						adapterSpinner.notifyDataSetChanged();
+						
+						if(selected_ingredient.getUmsList().size()>=1){
+							new_ingredient.setUm(selected_ingredient.getUmsList().get(0).getName());
+							new_ingredient.setUm_id(selected_ingredient.getUmsList().get(0).getId());
+						}
 						new_ingredient.setGeneral_name(selected.getGeneralName());
 						new_ingredient.setPoza(selected.getPicure());
 					}

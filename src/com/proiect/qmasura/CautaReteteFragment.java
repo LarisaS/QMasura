@@ -65,15 +65,17 @@ public class CautaReteteFragment  extends Fragment {
 		 		selectate= new HashMap<Integer,Ingredient>();
 		 		all_ingredients= new HashMap<Integer,Ingredient>();
 		 		
-		 		for(int i=0;i<ingrediente.size(); i++){
-		 			all_ingredients.put(i,ingrediente.get(i));
-		 		}
-		 		
 		 		
 		 		DbHelper db_helper= new DbHelper(this.getActivity());
 		 		ingrediente=db_helper.ingredienteDinFrigider();
 			 	 db_helper.close();
 				
+			 	for(int i=0;i<ingrediente.size(); i++){
+		 			all_ingredients.put(i,ingrediente.get(i));
+		 		}
+		 		 
+			 	 
+			 	 
 		         fragmentView=inflater.inflate(R.layout.cauta_retete, container, false);
 		         
 		         cauta=(Button)fragmentView.findViewById(R.id.cauta_retete_action);
@@ -197,9 +199,11 @@ public class CautaReteteFragment  extends Fragment {
 					
 					Iterator it = ingrediente.entrySet().iterator();
 		            while (it.hasNext()) {
+		            	Log.i("SEARCH", "INGREDIENT LA CAUTARE");		            	
 		            	url.append("frig%5B");
 		                Map.Entry pairs = (Map.Entry)it.next();
 		                Ingredient ing=(Ingredient)pairs.getValue();
+		                ing.display();
 		                url.append(ing.getGeneral_name());
 		                url.append("%5D%5Bcantitate%5D=");
 		                url.append(ing.getCantitate());

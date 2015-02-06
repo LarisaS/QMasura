@@ -413,6 +413,14 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.update(SETTINGS, cv, SETTINGS_OPTION+" like '"+SETTINGS_OPT_DATA_ACTUALIZARE_ING+"'", null);
 	}
 	
+	public void actualizeazaCantitateIngredientFrigider(Ingredient nou)
+	{
+		SQLiteDatabase db = this.getReadableDatabase();
+		ContentValues cv = new ContentValues();
+		cv.put(FRIGIDER_CANTITATE,nou.getCantitate()+"");
+		db.update(FRIGIDER, cv, FRIGIDER_GENERAL_NAME+" like '"+nou.getGeneral_name()+"'", null);
+	}
+	
 	public boolean populeazaUnitatiDeMasura(ArrayList<UnitatiDeMasura> ums)
 	{
 		SQLiteDatabase db = this.getReadableDatabase();

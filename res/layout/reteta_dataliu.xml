@@ -11,6 +11,7 @@
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
+        android:visibility="gone"
         android:id="@+id/detaliu_butoane" >
         <RelativeLayout
             android:layout_weight="5"
